@@ -1,6 +1,6 @@
 # Discord.sh
 
-Write-only command-line integration for Discord, written in 100% Bash script.
+Write-only command-line integration for Discord, written in 100% Bash script. Influenced heavily by [slack-cli]()
 
 ### Dependencies
 
@@ -13,4 +13,5 @@ Write-only command-line integration for Discord, written in 100% Bash script.
 3. ???
 4. Old memes!
 
+[slack-cli]: https://github.com/rockymadden/slack-cli/
 [curl]: https://curl.haxx.se/
