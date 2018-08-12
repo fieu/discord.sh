@@ -23,24 +23,14 @@ while (( "$#" )); do
     esac
 done
 
-# grab webhook url if not passed as argument
-if [ -z ${webhook_url} ]; then
-    if [ -r ".webhook" ] && [ -f ".webhook" ]; then
-        webhook_url=$(cat .webhook)
-    else
-        echo "fatal: --webhook-url not given and no .webhook file found"
-        exit 1
-    fi
-fi
-
 # set webhook url
 [ -z ${webhook_url} ] && [ -r ".webhook" ] && [ -f ".webhook" ] && webhook_url=$(cat .webhook)
 [ -z ${webhook_url} ] && echo "fatal: no --webhook-url passed and no .webhook file to read from" && exit 1;
 
 build_message() {
     # ensure username and text are given
-    [ -z ${username} ] && echo "fatal: no username given" && return
-    [ -z ${text} ] && echo "fatal: no text given" && return
+    [[ -z ${username// } ]] && echo "fatal: no username given" && exit 1
+    [[ -z ${text// } ]] && echo "fatal: no text given" && exit 1
 
     # wait for confirmation from server
     local _wait="\"wait\": true"
@@ -57,6 +47,7 @@ build_message() {
 send_message()
 {
     local _content=$(build_message)
+    [ $? -ne 0 ] && exit 1;
 
     if [ -n "${is_dry}" ] && [ "${is_dry}" -ne 0 ]; then
         echo ${_content}
@@ -69,4 +60,6 @@ send_message()
 # process command
 case "${cmd}" in
     say) send_message;;
+    *) echo "fatal: unrecognized command '${cmd}'"; exit 1;;
 esac
+
