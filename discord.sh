@@ -5,10 +5,11 @@
 
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [ "$#" -eq 0 ]; then echo "fatal: no command given"; exit 1; fi
+# gotta have a command, boss
+[ "$#" -eq 0 ] && echo "fatal: no command given" && exit 1
 
 # source env file if exists
-if [ -r "${thisdir}/.discord" ] && [ -f "${thisdir}/.discord" ]; then source ${thisdir}/.discord; fi
+[ -r "${thisdir}/.discord" ] && [ -f "${thisdir}/.discord" ] && source ${thisdir}/.discord
 
 # grab command
 cmd="${1}"; shift;
@@ -23,10 +24,14 @@ while (( "$#" )); do
     esac
 done
 
-# set webhook url
+# set webhook url (after argument handling)
 [ -z ${webhook_url} ] && [ -r ".webhook" ] && [ -f ".webhook" ] && webhook_url=$(cat .webhook)
 [ -z ${webhook_url} ] && echo "fatal: no --webhook-url passed and no .webhook file to read from" && exit 1;
 
+
+##
+# build the message. output to stdout, to be captured by command substitution
+##
 build_message() {
     # ensure username and text are given
     [[ -z ${username// } ]] && echo "fatal: no username given" && exit 1
@@ -44,6 +49,10 @@ build_message() {
     echo "{ ${_wait}${_json} }"
 }
 
+
+##
+# send a message to the text channel
+##
 send_message()
 {
     local _content=$(build_message)
@@ -57,7 +66,11 @@ send_message()
     curl -H "Content-Type: application/json" -X POST ${webhook_url} -d "${_content}"
 }
 
+
+##
 # process command
+##
+
 case "${cmd}" in
     say) send_message;;
     *) echo "fatal: unrecognized command '${cmd}'"; exit 1;;
