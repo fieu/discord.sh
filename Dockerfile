@@ -12,7 +12,7 @@ LABEL \
 
 # Install the goodies
 RUN apk add --no-cache --update \
-	bash \
+  bash \
   curl \
   dos2unix
 
