@@ -3,6 +3,9 @@
 # Discord.sh - Discord on command-line
 # by ChaoticWeg and Suce
 
+shopt -s lastpipe   # avoid subshell weirdness hopefully
+shopt -so pipefail  # hopefully correctly get $? in substitution
+
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # gotta have a command, boss
@@ -25,6 +28,7 @@ while (( "$#" )); do
 done
 
 # set webhook url (after argument handling)
+[ -z ${webhook_url} ] && [ -n "${DISCORD_WEBHOOK}" ] && webhook_url=${DISCORD_WEBHOOK}
 [ -z ${webhook_url} ] && [ -r ".webhook" ] && [ -f ".webhook" ] && webhook_url=$(cat .webhook)
 [ -z ${webhook_url} ] && echo "fatal: no --webhook-url passed and no .webhook file to read from" && exit 1;
 
@@ -56,14 +60,12 @@ build_message() {
 send_message()
 {
     local _content=$(build_message)
-    [ $? -ne 0 ] && exit 1;
 
-    if [ -n "${is_dry}" ] && [ "${is_dry}" -ne 0 ]; then
-        echo ${_content}
-        return
-    fi
+    [[ $? -ne 0 ]] && echo ${_content} && exit 1      # bail out on build fail
+    [[ -n ${is_dry} ]] && echo ${_content} && exit 0  # dry run
 
     curl -H "Content-Type: application/json" -X POST ${webhook_url} -d "${_content}"
+    exit $?
 }
 
 
@@ -72,7 +74,7 @@ send_message()
 ##
 
 case "${cmd}" in
-    say) send_message;;
+    say) send_message && exit $?;;
     *) echo "fatal: unrecognized command '${cmd}'"; exit 1;;
 esac
 
