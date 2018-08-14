@@ -18,9 +18,9 @@ lint: /tmp/shellcheck-latest/shellcheck
 	@chmod +x $@
 
 notify: send.sh
-	@bash send.sh $(result) ${LOGS_WEBHOOK}
+	@bash $< $(result) ${LOGS_WEBHOOK}
 
 send.sh:
 	@wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
-	@chmod +x send.sh
+	@chmod +x $@
 
