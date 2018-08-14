@@ -1,9 +1,9 @@
-<h1 align="center">
+<h4 align="center">
   <br>
   <a href="https://github.com/ChaoticWeg/discord.sh"><img src="https://i.imgur.com/xZ8r3N0.png" alt="discord.sh"></a>
   <br>
   <br>
-</h1>
+</h4>
 
 <p align="center">
   <a href="https://travis-ci.org/ChaoticWeg/discord.sh"><img src="https://img.shields.io/travis/ChaoticWeg/discord.sh/master.svg" alt="Travis CI (master branch)"></a>
