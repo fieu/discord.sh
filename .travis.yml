@@ -11,12 +11,6 @@ install:
 
 script: make all
 
-after_success:
-    - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
-    - chmod +x send.sh
-    - ./send.sh success $LOGS_WEBHOOK
+after_success: make notify result=success
 
-after_failure:
-    - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
-    - chmod +x send.sh
-    - ./send.sh failure $LOGS_WEBHOOK
+after_failure: make notify result=failure
