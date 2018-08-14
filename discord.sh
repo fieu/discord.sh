@@ -7,7 +7,7 @@ shopt -s lastpipe   # avoid subshell weirdness hopefully
 shopt -so pipefail  # hopefully correctly get $? in substitution
 
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-webhook_file=${thisdir}/.webhook
+webhook_file="${thisdir}/.webhook"
 
 # gotta have a command, boss
 [[ "$#" -eq 0 ]] && echo "fatal: no command given" && exit 1
@@ -68,7 +68,11 @@ send_message()
     # make the POST request and parse the results
     # results should be empty if there's no problem. otherwise, there should be code and message
     local _result
+
      _result=$(curl -H "Content-Type: application/json" -X POST "${webhook_url}" -d "${_content}" 2>/dev/null)
+     send_ok=$?
+     [[ "${send_ok}" -ne 0 ]] && echo "fatal: curl failed with code ${send_ok}" && exit $send_ok
+
      _result=$(echo "${_result}" | jq '.')
 
     # if we have a result, there was a problem. echo and exit.
