@@ -3,7 +3,7 @@
 .PHONY: all test lint
 
 all:
-	@if [ $(uname -s) = "Linux" ]; then make lint; fi
+	@if [ "$(uname -s)" == "Linux" ]; then make lint; fi
 	@make test
 
 test:
