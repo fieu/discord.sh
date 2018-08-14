@@ -2,6 +2,8 @@
 
 Write-only command-line integration for Discord webhooks, written in 100% Bash script. Influenced heavily by [slack-cli][slack].
 
+[![Travis (.org) branch](https://img.shields.io/travis/ChaoticWeg/discord.sh/master.svg)](https://travis-ci.org/ChaoticWeg/discord.sh)
+
 ### Dependencies
 
 - [curl]() (http requests)
