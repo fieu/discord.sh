@@ -18,12 +18,22 @@ cmd="${1}"; shift;
 # gather arguments
 while (( "$#" )); do
     case "${1}"  in
+
         --dry-run) is_dry=1; shift;;
-        --webhook-url=*) webhook_url=${1/--webhook-url=/''}; shift;;
-        --username=*) username=${1/--username=/''}; shift;;
-        --text=*) text=${1/--text=/''}; shift;;
-        --avatar-url=*) avatar_url=${1/--avatar-url=/''}; shift;;
         --tts) is_tts=1; shift;;
+
+        --webhook-url=*) webhook_url=${1/--webhook-url=/''}; shift;;
+        --webhook-url*) webhook_url=${2}; shift; shift;;
+
+        --username=*) username=${1/--username=/''}; shift;;
+        --username*) username=${2}; shift; shift;;
+
+        --text=*) text=${1/--text=/''}; shift;;
+        --text*) text=${2}; shift; shift;;
+
+        --avatar-url=*) avatar_url=${1/--avatar-url=/''}; shift;;
+        --avatar-url*) avatar_url=${2}; shift; shift;;
+
     esac
 done
 
