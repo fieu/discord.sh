@@ -1,22 +1,28 @@
 sudo: true
 language: cpp
 compiler: gcc
+
 matrix:
-  include:
-  - os: linux
-  - os: osx
+    include:
+        - os: linux
+        - os: osx
+
 before_install:
+
 install:
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then HOMEBREW_NO_AUTO_UPDATE=1 brew install bats; brew link --force bats; fi
+    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then HOMEBREW_NO_AUTO_UPDATE=1 brew install bats; brew link --force bats; fi
+
 script:
-- chmod +x run_tests.sh
-- ./run_tests.sh
+    - bash -c 'shopt -s globstar; shellcheck **/*.{sh,bash}'
+    - chmod +x run_tests.sh
+    - ./run_tests.sh
 
 after_success:
-  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
-  - chmod +x send.sh
-  - ./send.sh success $LOGS_WEBHOOK
+    - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+    - chmod +x send.sh
+    - ./send.sh success $LOGS_WEBHOOK
+
 after_failure:
-  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
-  - chmod +x send.sh
-  - ./send.sh failure $LOGS_WEBHOOK
+    - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+    - chmod +x send.sh
+    - ./send.sh failure $LOGS_WEBHOOK
