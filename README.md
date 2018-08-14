@@ -4,7 +4,8 @@ Write-only command-line integration for Discord webhooks, written in 100% Bash s
 
 ### Dependencies
 
-- [curl]()
+- [curl]() (http requests)
+- [bats]() (tests)
 
 ### Usage
 
@@ -18,4 +19,5 @@ Write-only command-line integration for Discord webhooks, written in 100% Bash s
 
 [slack-cli]: https://github.com/rockymadden/slack-cli/
 [curl]: https://curl.haxx.se/
+[bats]: https://github.com/sstephenson/bats
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
