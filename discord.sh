@@ -22,6 +22,8 @@ while (( "$#" )); do
         --webhook-url=*) webhook_url=${1/--webhook-url=/''}; shift;;
         --username=*) username=${1/--username=/''}; shift;;
         --text=*) text=${1/--text=/''}; shift;;
+        --avatar-url=*) avatar_url=${1/--avatar-url=/''}; shift;;
+        --tts) is_tts=1; shift;;
     esac
 done
 
@@ -38,7 +40,6 @@ done
 ##
 build_message() {
     # ensure username and text are given
-    [[ -z ${username// } ]] && echo "fatal: no username given" && exit 1
     [[ -z ${text// } ]] && echo "fatal: no text given" && exit 1
 
     # wait for confirmation from server
@@ -47,9 +48,11 @@ build_message() {
     # these should already be set! we've checked above that they are
     [[ -n "${username}" ]] && local _username=", \"username\": \"${username}\""
     [[ -n "${text}" ]] && local _content=", \"content\": \"${text}\""
+    [[ -n "${avatar_url}" ]] && local _avatar=", \"avatar_url\": \"${avatar_url}\""
+    [[ -n "${is_tts}" ]] && local _tts=", \"tts\": true"
 
     # build message and echo
-    local _json="${_username}${_content}"
+    local _json="${_username}${_content}${_avatar}${_tts}"
     echo "{ ${_wait}${_json} }"
 }
 
