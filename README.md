@@ -1,6 +1,6 @@
 # Discord.sh
 
-Write-only command-line integration for Discord webhooks, written in 100% Bash script. Influenced heavily by [slack-cli]().
+Write-only command-line integration for Discord webhooks, written in 100% Bash script. Influenced heavily by [slack-cli][slack].
 
 ### Dependencies
 
@@ -17,7 +17,7 @@ Write-only command-line integration for Discord webhooks, written in 100% Bash s
 
 ^ Subject to change through the course of development.
 
-[slack-cli]: https://github.com/rockymadden/slack-cli/
+[slack]: https://github.com/rockymadden/slack-cli/
 [curl]: https://curl.haxx.se/
 [bats]: https://github.com/sstephenson/bats
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
