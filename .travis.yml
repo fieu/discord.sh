@@ -11,3 +11,12 @@ install:
 script:
 - chmod +x run_tests.sh
 - ./run_tests.sh
+
+after_success:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $LOGS_WEBHOOK
+after_failure:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $LOGS_WEBHOOK
