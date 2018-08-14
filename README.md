@@ -1,4 +1,11 @@
-# Discord.sh
+<h1 align="center">
+  <br>
+  <a href="https://github.com/ChaoticWeg/discord.sh"><img src="https://i.imgur.com/xZ8r3N0.png" alt="discord.sh"></a>
+  <br>
+  <code>discord.sh</code>
+  <br>
+  <br>
+</h1>
 
 Write-only command-line integration for Discord webhooks, written in 100% Bash script. Influenced heavily by [slack-cli][slack].
 
