@@ -15,5 +15,5 @@ lint: /tmp/shellcheck-latest/shellcheck
 
 /tmp/shellcheck-latest/shellcheck:
 	@wget -c 'https://goo.gl/ZzKHFv' -O - | tar -xvJ -C /tmp/ >/dev/null 2>&1
-
+	@chmod +x $@
 
