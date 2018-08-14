@@ -9,10 +9,7 @@ shopt -so pipefail  # hopefully correctly get $? in substitution
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # gotta have a command, boss
-[ "$#" -eq 0 ] && echo "fatal: no command given" && exit 1
-
-# source env file if exists
-[ -r "${thisdir}/.discord" ] && [ -f "${thisdir}/.discord" ] && source ${thisdir}/.discord
+[[ "$#" -eq 0 ]] && echo "fatal: no command given" && exit 1
 
 # grab command
 cmd="${1}"; shift;
@@ -27,10 +24,12 @@ while (( "$#" )); do
     esac
 done
 
-# set webhook url (after argument handling)
-[ -z ${webhook_url} ] && [ -n "${DISCORD_WEBHOOK}" ] && webhook_url=${DISCORD_WEBHOOK}
-[ -z ${webhook_url} ] && [ -r ".webhook" ] && [ -f ".webhook" ] && webhook_url=$(cat .webhook)
-[ -z ${webhook_url} ] && echo "fatal: no --webhook-url passed and no .webhook file to read from" && exit 1;
+# set webhook url (if none exists after argument handling)
+[[ -z ${webhook_url} ]] && [[ -n "${DISCORD_WEBHOOK}" ]] && webhook_url=${DISCORD_WEBHOOK}
+[[ -z ${webhook_url} ]] && [[ -r ".webhook" ]] && [[ -f ".webhook" ]] && webhook_url=$(cat .webhook)
+
+# no webhook could be found. bail out
+[[ -z ${webhook_url} ]] && echo "fatal: no --webhook-url passed and no .webhook file to read from" && exit 1;
 
 
 ##
@@ -45,8 +44,8 @@ build_message() {
     local _wait="\"wait\": true"
 
     # these should already be set! we've checked above that they are
-    [ -n "${username}" ] && local _username=", \"username\": \"${username}\""
-    [ -n "${text}" ] && local _content=", \"content\": \"${text}\""
+    [[ -n "${username}" ]] && local _username=", \"username\": \"${username}\""
+    [[ -n "${text}" ]] && local _content=", \"content\": \"${text}\""
 
     # build message and echo
     local _json="${_username}${_content}"
@@ -59,13 +58,21 @@ build_message() {
 ##
 send_message()
 {
-    local _content=$(build_message)
+    local _content  # initialize _content, to avoid obscuring exit code of build_message below
+    if ! _content=$(build_message); then echo ${_content}; exit 1; fi
 
-    [[ $? -ne 0 ]] && echo ${_content} && exit 1      # bail out on build fail
-    [[ -n ${is_dry} ]] && echo ${_content} && exit 0  # dry run
+    # make the POST request and parse the results
+    # results should be empty if there's no problem. otherwise, there should be code and message
+    local _result=$(curl -H "Content-Type: application/json" -X POST ${webhook_url} -d "${_content}" 2>/dev/null | jq '.')
+    local _resultCode=$(echo $_result | jq .code)
+    local _resultMessage=$(echo $_result | jq .message)
 
-    curl -H "Content-Type: application/json" -X POST ${webhook_url} -d "${_content}"
-    exit $?
+    # if we have a resultant code and message, there was a problem. echo and exit.
+    [[ -n ${_result} ]] && [[ -n ${_resultCode} ]] && [[ -n ${_resultMessage} ]] && \
+        echo error: ${_resultMessage//\"} \(${_resultCode}\) && \
+        exit 1
+
+    exit 0
 }
 
 
