@@ -7,6 +7,7 @@ shopt -s lastpipe   # avoid subshell weirdness hopefully
 shopt -so pipefail  # hopefully correctly get $? in substitution
 
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+webhook_file=${thisdir}/.webhook
 
 # gotta have a command, boss
 [[ "$#" -eq 0 ]] && echo "fatal: no command given" && exit 1
@@ -26,7 +27,7 @@ done
 
 # set webhook url (if none exists after argument handling)
 [[ -z ${webhook_url} ]] && [[ -n "${DISCORD_WEBHOOK}" ]] && webhook_url=${DISCORD_WEBHOOK}
-[[ -z ${webhook_url} ]] && [[ -r ".webhook" ]] && [[ -f ".webhook" ]] && webhook_url=$(cat .webhook)
+[[ -z ${webhook_url} ]] && [[ -r "${webhook_file}" ]] && [[ -f "${webhook_file}" ]] && webhook_url=$(cat "${webhook_file}")
 
 # no webhook could be found. bail out
 [[ -z ${webhook_url} ]] && echo "fatal: no --webhook-url passed and no .webhook file to read from" && exit 1;
@@ -59,17 +60,20 @@ build_message() {
 send_message()
 {
     local _content  # initialize _content, to avoid obscuring exit code of build_message below
-    if ! _content=$(build_message); then echo ${_content}; exit 1; fi
+    if ! _content=$(build_message); then echo "${_content}"; exit 1; fi
+
+    # dry run?
+    [[ -n ${is_dry} ]] && [[ "${is_dry}" -ne 0 ]] && echo "${_content}" && exit 0;
 
     # make the POST request and parse the results
     # results should be empty if there's no problem. otherwise, there should be code and message
-    local _result=$(curl -H "Content-Type: application/json" -X POST ${webhook_url} -d "${_content}" 2>/dev/null | jq '.')
-    local _resultCode=$(echo $_result | jq .code)
-    local _resultMessage=$(echo $_result | jq .message)
+    local _result
+     _result=$(curl -H "Content-Type: application/json" -X POST "${webhook_url}" -d "${_content}" 2>/dev/null)
+     _result=$(echo "${_result}" | jq '.')
 
-    # if we have a resultant code and message, there was a problem. echo and exit.
-    [[ -n ${_result} ]] && [[ -n ${_resultCode} ]] && [[ -n ${_resultMessage} ]] && \
-        echo error: ${_resultMessage//\"} \(${_resultCode}\) && \
+    # if we have a result, there was a problem. echo and exit.
+    [[ -n ${_result} ]] && \
+        echo error: "$(echo "${_result}" | jq .message)" \("$(echo "${_result}" | jq .code)"\) && \
         exit 1
 
     exit 0
