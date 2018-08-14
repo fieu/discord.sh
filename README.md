@@ -2,6 +2,7 @@
   <br>
   <a href="https://github.com/ChaoticWeg/discord.sh"><img src="https://i.imgur.com/xZ8r3N0.png" alt="discord.sh"></a>
   <br>
+  <br>
 </h1>
 
 <p align="center">
