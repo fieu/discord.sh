@@ -1,6 +1,6 @@
 #!/usr/bin/env make
 
-.PHONY: all test lint
+.PHONY: all test lint notify
 
 all:
 	@bash -c 'if [ "$(uname -s)" == "Linux" ]; then make lint; fi'
