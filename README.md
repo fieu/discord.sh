@@ -13,8 +13,8 @@ Write-only command-line integration for Discord webhooks, written in 100% Bash s
 
 ### Dependencies
 
-- [curl]() (http requests)
-- [bats]() (tests)
+- [curl][curl] (http requests)
+- [bats][bats] (tests)
 
 ### Specifying a Webhook URL
 
