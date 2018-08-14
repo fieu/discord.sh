@@ -3,7 +3,7 @@
 .PHONY: all test lint
 
 all:
-	@make lint
+	@[[ $(uname -s) = "Linux" ]] && make lint
 	@make test
 
 test:
