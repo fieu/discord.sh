@@ -1,0 +1,13 @@
+sudo: true
+language: cpp
+compiler: gcc
+matrix:
+  include:
+  - os: linux
+  - os: osx
+before_install:
+install:
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install bats; brew link --force bats; fi
+script:
+- chmod +x run_tests.sh
+- ./run_tests.sh
