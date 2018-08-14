@@ -30,3 +30,15 @@
     [ "$output" = "fatal: no text given" ]
 }
 
+@test "say: invalid webhook URL (should fail)" {
+    skip "how the hell do we even handle this"
+    run bash discord.sh say --text "how tf can you even see this?" --webhook-url "https://discordapp.com/api/webhooks/invalid/lol-no"
+    [ "$status" -eq 0 ]
+}
+
+@test "say: malformed webhook URL (should fail)" {
+    run bash discord.sh say --text "lol" --webhook-url "lol not a webhook"
+    [ "$status" -eq 3 ]
+    [ "$output" = "fatal: curl failed with code 3" ]
+}
+
