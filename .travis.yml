@@ -1,6 +1,5 @@
 sudo: true
-language: cpp
-compiler: gcc
+language: bash
 
 matrix:
     include:
@@ -10,10 +9,7 @@ matrix:
 install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then HOMEBREW_NO_AUTO_UPDATE=1 brew install bats; brew link --force bats; fi
 
-script:
-    - bash -c 'shopt -s globstar; shellcheck **/*.{sh,bash}'
-    - chmod +x run_tests.sh
-    - ./run_tests.sh
+script: make all
 
 after_success:
     - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
