@@ -14,6 +14,8 @@ Write-only command-line integration for Discord, written in 100% Bash script. In
 4. Copy and paste the webhook URL from Discord into `.webhook`
 5. Go nuts.
 
+^ Subject to change through the course of development.
+
 [slack-cli]: https://github.com/rockymadden/slack-cli/
 [curl]: https://curl.haxx.se/
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
