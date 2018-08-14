@@ -7,8 +7,6 @@ matrix:
         - os: linux
         - os: osx
 
-before_install:
-
 install:
     - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then HOMEBREW_NO_AUTO_UPDATE=1 brew install bats; brew link --force bats; fi
 
