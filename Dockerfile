@@ -14,7 +14,8 @@ LABEL \
 RUN apk add --no-cache --update \
   bash \
   curl \
-  dos2unix
+  dos2unix \
+  jq
 
 # Teleport to /app
 WORKDIR /app
