@@ -1,10 +1,5 @@
 #!/usr/bin/env bats
 
-@test "etc: no command (should fail)" {
-    run bash discord.sh
-    [ "$status" -eq 1 ]
-}
-
 @test "etc: unknown command (should fail)" {
     run bash discord.sh aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     [ "$status" -eq 1 ]

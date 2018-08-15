@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+total_exitcode=0
+
 for filename in tests/*.bats; do
     echo -ne "\n  -- bats: ${filename}\n\n"
 
@@ -8,10 +10,11 @@ for filename in tests/*.bats; do
 
     [[ "${exitcode}" -ne 0 ]] && \
         echo -ne "\n  -- FATAL: ${filename} failed with code: ${exitcode}\n\n" && \
-        exit ${exitcode}
+        total_exitcode="${exitcode}"
 done
 
-# all ok
+# all done
 
-echo -ne "\n  -- OK: all tests passed\n\n"
+[[ "${total_exitcode}" -eq 0 ]] && echo -ne "\n  -- OK: all tests passed\n\n" && exit 0;
+echo -ne "\n  -- FATAL: one or more tests failed\n\n" && exit $total_exitcode;
 
