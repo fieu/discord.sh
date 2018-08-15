@@ -34,6 +34,20 @@ while (( "$#" )); do
         --avatar-url=*) avatar_url=${1/--avatar-url=/''}; shift;;
         --avatar-url*) avatar_url=${2}; shift; shift;;
 
+        # embed goodies
+
+        --embed-title=*) embed_title=${1/--embed-title=/''}; shift;;
+        --embed-title*) embed_title=${2}; shift; shift;;
+
+        --embed-description=*) embed_description=${1/--embed-description=/''}; shift;;
+        --embed-description*) embed_description=${2}; shift; shift;;
+
+        --embed-url=*) embed_url=${1/--embed-url=/''}; shift;;
+        --embed-url*) embed_url=${2}; shift; shift;;
+
+        --embed-color=*) embed_color=${1/--embed-color=/''}; shift;;
+        --embed-color*) embed_color=${2}; shift; shift;;
+
     esac
 done
 
@@ -46,11 +60,11 @@ done
 
 
 ##
-# build the message. output to stdout, to be captured by command substitution
+# build a raw message. output to stdout, to be captured by command substitution
 ##
 build_message() {
-    # ensure username and text are given
-    [[ -z ${text// } ]] && echo "fatal: no text given" && exit 1
+    # ensure text is given
+    [[ -z "${text}" ]] && echo "fatal: no text given" && exit 1
 
     # wait for confirmation from server
     local _wait="\"wait\": true"
@@ -68,12 +82,45 @@ build_message() {
 
 
 ##
-# send a message to the text channel
+# build an embed object, same as build_message, except this time with feeling
 ##
-send_message()
+build_embed() {
+
+    # need to have SOMETHING to build
+    [[ -z "${embed_title}" ]] && \
+        [[ -z "${embed_description}" ]] && \
+        [[ -z "${embed_url}" ]] && \
+        [[ -z "${embed_color}" ]] && \
+        echo "fatal: nothing to embed" && exit 1
+
+    # strip 0x prefix and convert hex to dec if necessary
+    [[ -n "${embed_color}" ]] && [[ "${embed_color}" =~ ^0x[0-9a-fA-F]+$ ]] && embed_color=$(( 16#${embed_color/0x/''} ))
+
+    # embed color must be an integer, if given
+    [[ -n "${embed_color}" ]] && ! [[ "${embed_color}" =~ ^[0-9a-fA-F]+$ ]] && \
+        echo "fatal: illegal color '${embed_color}'" && exit 1
+
+    # let's build, boys
+    [[ -n "${username}" ]] && local _username=", \"username\": \"${username}\""
+    [[ -n "${avatar_url}" ]] && local _avatar=", \"avatar_url\": \"${avatar_url}\""
+    [[ -n "${embed_title}" ]] && local _title=", \"title\": \"${embed_title}\""
+    [[ -n "${embed_description}" ]] && local _desc=", \"description\": \"${embed_description}\""
+    [[ -n "${embed_url}" ]] && local _url=", \"url\": \"${embed_url}\""
+    [[ -n "${embed_color}" ]] && local _color=", \"color\": ${embed_color}"
+
+    local _embedPrefix="\"nonce\": \"made with <3 by ChaoticWeg and Suce\""
+    local _embed="[{ ${_embedPrefix}${_desc}${_url}${_color} }]"
+    local _prefix="\"wait\": true, \"content\": \"${text}\"${_username}${_avatar}"
+    echo "{ ${_prefix}, \"embeds\": ${_embed} }"
+}
+
+##
+# send something to the text channel
+##
+send_something()
 {
-    local _content  # initialize _content, to avoid obscuring exit code of build_message below
-    if ! _content=$(build_message); then echo "${_content}"; exit 1; fi
+    # gotta send something
+    [[ -z "${1}" ]] && echo "fatal: give me something to send" && exit 1
 
     # dry run?
     [[ -n ${is_dry} ]] && [[ "${is_dry}" -ne 0 ]] && echo "${_content}" && exit 0;
@@ -82,7 +129,7 @@ send_message()
     # results should be empty if there's no problem. otherwise, there should be code and message
     local _result
 
-     _result=$(curl -H "Content-Type: application/json" -X POST "${webhook_url}" -d "${_content}" 2>/dev/null)
+     _result=$(curl -H "Content-Type: application/json" -X POST "${webhook_url}" -d "${1}" 2>/dev/null)
      send_ok=$?
      [[ "${send_ok}" -ne 0 ]] && echo "fatal: curl failed with code ${send_ok}" && exit $send_ok
 
@@ -102,7 +149,9 @@ send_message()
 ##
 
 case "${cmd}" in
-    say) send_message && exit $?;;
+    say) if ! _content=$(build_message); then echo "${_content}"; exit 1; else send_something "${_content}"; exit $?; fi;;
+    embed) if ! _content=$(build_embed); then echo "${_content}"; exit 1; else send_something "${_content}"; exit $?; fi;;
+
     *) echo "fatal: unrecognized command '${cmd}'"; exit 1;;
 esac
 
