@@ -15,6 +15,7 @@ Write-only command-line integration for Discord webhooks, written in 100% Bash s
 
 - [curl][curl] (http requests)
 - [bats][bats] (tests)
+- [jq][jq] (JSON parsing)
 
 ### Specifying a Webhook URL
 
@@ -34,4 +35,5 @@ There are three ways to point `discord.sh` at a webhook endpoint, in order of re
 [slack]: https://github.com/rockymadden/slack-cli/
 [curl]: https://curl.haxx.se/
 [bats]: https://github.com/sstephenson/bats
+[jq]: https://stedolan.github.io/jq/
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
