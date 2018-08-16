@@ -38,13 +38,13 @@ There are three ways to point `discord.sh` at a webhook endpoint, in order of re
 
 __Simple chat example__
 
-```console
+```bash
 $ ./discord.sh --webhook-url=$WEBHOOK --text "Hello, world!"
 ```
 
 __Simple chat example with custom username and avatar__
 
-```console
+```bash
 $ ./discord.sh \
   --webhook-url=$WEBHOOK \
   --username "NotificationBot" \
@@ -54,7 +54,7 @@ $ ./discord.sh \
 
 __Advanced chat example using an embed (using all possible options)__
 
-```console
+```bash
 $ ./discord.sh \
   --webhook-url=$WEBHOOK \
   --username "NotificationBot" \
