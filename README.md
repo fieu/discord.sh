@@ -124,7 +124,7 @@ Now we're going to look at how to setup a custom embed message.
 #### Input Pattern 1: `0x` + `COLOR HEX`
 #### Input Pattern 2: `COLOR DEC`
 #### Input Example 1: `--color 0xFFFFFF`
-#### Input Example 1: `--color 16777215`
+#### Input Example 2: `--color 16777215`
 
 ![](https://i.imgur.com/cUQPjoK.png)
 
