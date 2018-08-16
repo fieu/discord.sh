@@ -67,8 +67,10 @@ $ ./discord.sh \
   --author-name "discord.sh v1.0" \
   --author-url "https://github.com/ChaoticWeg/discord.sh" \
   --author-icon "https://i.imgur.com/12jyR5Q.png" \
-  --footer "discord.sh v1.0" \
-  --footer-icon "https://i.imgur.com/12jyR5Q.png"
+  --image "https://i.imgur.com/12jyR5Q.png" \
+  --thumbnail "https://i.imgur.com/12jyR5Q.png" \
+  --footer-icon "https://i.imgur.com/12jyR5Q.png" \
+  --footer "discord.sh v1.0"
 ```
 
 [slack]: https://github.com/rockymadden/slack-cli/
