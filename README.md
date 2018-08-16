@@ -12,9 +12,17 @@
 > Write-only command-line integration for Discord webhooks, written in 100% Bash script. Influenced heavily by [slack-cli][slack].
 
 ## Table of Contents
+- [Features](#features)
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Options](#options)
+
+### Features
+- Create and send very customizable and beautiful Discord messages 🎉 ✨
+- Less than 300 lines of pure Bash 😎
+- Extremely lightweight ⚡ 🚀
+- Only requires [curl][curl] and [jq][jq] to run 🔥
+- Works in Docker! 🐳
 
 ### Dependencies
 
