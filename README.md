@@ -34,9 +34,7 @@ There are three ways to point `discord.sh` at a webhook endpoint, in order of re
 2. Create a file called `.webhook` in the same directory as `discord.sh`, containing only the webhook URL
 3. Pass the webhook URL as an argument to `discord.sh` using `--webhook-url`
 
-### 3. Usage
-
-Now we're going to look at how to use the script.
+### 3. Using the script
 
 __Simple chat example__
 
