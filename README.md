@@ -80,7 +80,7 @@ $ ./discord.sh \
 
 ## Options
 
-### • `--webhook-url`
+### • `--webhook-url <url>`
 #### Input Type: String
 > This should be set to your Discord webhook URL. You may alternatively set the environment variable `DISCORD_WEBHOOK` to your Discord webhook URL and that way you don't have to pass in the webhook URL inline.
 
