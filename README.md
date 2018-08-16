@@ -64,7 +64,7 @@ $ ./discord.sh \
   --text "Check out this embed!" \
   --title "New Notification!" \
   --description "This is a description\nPretty cool huh?" \
-  --color "0xFFFFFF"
+  --color "0xFFFFFF" \
   --url "https://github.com/ChaoticWeg/discord.sh" \
   --author-name "discord.sh v1.0" \
   --author-url "https://github.com/ChaoticWeg/discord.sh" \
