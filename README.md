@@ -147,7 +147,7 @@ Now we're going to look at how to setup a custom embed message.
 ![](https://i.imgur.com/0E39bcV.png)
 
 ### • `--author-icon`
-> This option allows you to set the author icon that sites to the right of the `--author` flag within the embed.
+> This option allows you to set the author icon that sits to the left of the `--author` flag within the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/hHReI85.png)
