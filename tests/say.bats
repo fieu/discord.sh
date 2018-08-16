@@ -1,17 +1,17 @@
 #!/usr/bin/env bats
 
 @test "say: text, no username, --gnu-style=<>" {
-    run bash discord.sh --text="\`text, no username, --gnu-style=<>\`"
+    run bash discord.sh --text="text, no username, --gnu-style=<>"
     [ "$status" -eq 0 ]
 }
 
 @test "say: text, no username, --gnu-style <>" {
-    run bash discord.sh --text "\`text, no username, --gnu-style <>\`"
+    run bash discord.sh --text "text, no username, --gnu-style <>"
     [ "$status" -eq 0 ]
 }
 
 @test "say: text, username, --gnu-style varied" {
-    run bash discord.sh --username "clever name" --text="\`text, username, --gnu-style varied\`"
+    run bash discord.sh --username "clever name" --text="text, username, --gnu-style varied"
     [ "$status" -eq 0 ]
 }
 
