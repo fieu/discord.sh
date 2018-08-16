@@ -6,7 +6,19 @@
 shopt -s lastpipe   # avoid subshell weirdness hopefully
 shopt -so pipefail  # hopefully correctly get $? in substitution
 
-get_ts() { echo "$(date -u --iso-8601=seconds)"; }
+# check for jq
+
+jq --version >/dev/null 2>&1
+jq_ok=$?
+
+[[ "$jq_ok" -eq 127 ]] && \
+    echo "fatal: jq not installed" && exit 2
+[[ "$jq_ok" -ne 0 ]] && \
+    echo "fatal: unknown error in jq" && exit 2
+
+# jq exists and runs ok
+
+get_ts() { echo "$(date -u --iso-8601=seconds)"; };
 
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 webhook_file="${thisdir}/.webhook"
@@ -27,11 +39,11 @@ while (( "$#" )); do
         --username=*) username=${1/--username=/''}; shift;;
         --username*) username=${2}; shift; shift;;
 
-        --text=*) text=${1/--text=/''}; shift;;
-        --text*) text=${2}; shift; shift;;
-
         --avatar=*) avatar_url=${1/--avatar=/''}; shift;;
         --avatar*) avatar_url=${2}; shift; shift;;
+
+        --text=*) text=${1/--text=/''}; shift;;
+        --text*) text=${2}; shift; shift;;
 
         # embed goodies
 
@@ -51,14 +63,38 @@ while (( "$#" )); do
 
         # embed author
 
-        --author-name=*) embed_authorname=${1/--author-name=/''}; embedding=1; shift;;
-        --author-name*) embed_authorname=${2}; embedding=1; shift; shift;;
-
         --author-url=*) embed_authorurl=${1/--author-url=/''}; embedding=1; shift;;
         --author-url*) embed_authorurl=${2}; embedding=1; shift; shift;;
 
         --author-icon=*) embed_authoricon=${1/--author-icon=/''}; embedding=1; shift;;
         --author-icon*) embed_authoricon=${2}; embedding=1; shift; shift;;
+
+        --author=*) embed_authorname=${1/--author=/''}; embedding=1; shift;;
+        --author*) embed_authorname=${2}; embedding=1; shift; shift;;
+
+        # thumbnail
+
+        --thumbnail=*) embed_thumbnail=${1/--thumbnail=/''}; embedding=1; shift;;
+        --thumbnail*) embed_thumbnail=${2}; embedding=1; shift; shift;;
+
+        # image
+
+        --image-height=*) embed_imageheight=${1/--image-height=/''}; embedding=1; shift;;
+        --image-height*) embed_imageheight=${2}; embedding=1; shift; shift;;
+
+        --image-width=*) embed_imagewidth=${1/--image-width=/''}; embedding=1; shift;;
+        --image-width*) embed_imagewidth=${2}; embedding=1; shift; shift;;
+
+        --image=*) embed_imageurl=${1/--image=/''}; embedding=1; shift;;
+        --image*) embed_imageurl=${2}; embedding=1; shift; shift;;
+
+        # footer
+
+        --footer-icon=*) embed_footericon=${1/--footer-icon=/''}; embedding=1; shift;;
+        --footer-icon*) embed_footericon=${2}; embedding=1; shift; shift;;
+
+        --footer=*) embed_footertext=${1/--footer=/''}; embedding=1; shift;;
+        --footer*) embed_footertext=${2}; embedding=1; shift; shift;;
 
         # unknown argument. bail out
 
@@ -87,9 +123,53 @@ build_author() {
     [[ -n "${embed_authorurl}" ]] && local _url=", \"url\": \"${embed_authorurl}\""
     [[ -n "${embed_authoricon}" ]] && local _icon=", \"icon_url\": \"${embed_authoricon}\""
 
-    echo ", \"author\": { \"placeholder\": \"hello\"${_name}${_url}${_icon} }"
+    echo ", \"author\": { \"_\": \"_\"${_name}${_url}${_icon} }"
 }
 
+
+##
+# build thumbnail object
+##
+build_thumbnail() {
+    # don't build if not embedding
+    [[ -z "${embedding}" ]] && exit;
+    [[ "${embedding}" -ne 1 ]] && exit;
+
+    [[ -n "${embed_thumbnail}" ]] && local _url="\"url\": \"${embed_thumbnail}\""
+
+    echo ", \"thumbnail\": { ${_url} }"
+}
+
+
+##
+# build footer object
+##
+build_footer() {
+    # don't build if not embedding
+    [[ -z "${embedding}" ]] && exit;
+    [[ "${embedding}" -ne 1 ]] && exit;
+
+    [[ -n "${embed_footertext}" ]] && local _text=", \"text\": \"${embed_footertext}\""
+    [[ -n "${embed_footericon}" ]] && local _icon=", \"icon_url\": \"${embed_footericon}\""
+
+    echo ", \"footer\": { \"_\":\"_\"${_text}${_icon} }"
+}
+
+
+##
+# build image object
+##
+build_image() {
+    # don't build if not embedding
+    [[ -z "${embedding}" ]] && exit;
+    [[ "${embedding}" -ne 1 ]] && exit;
+
+    [[ -n "${embed_imageurl}" ]] && local _iurl=", \"url\": \"${embed_imageurl}\""
+    [[ -n "${embed_imageheight}" ]] && local _height=", \"height\": ${embed_imageheight}"
+    [[ -n "${embed_imagewidth}" ]] && local _width=", \"width\": ${embed_imagewidth}"
+
+    echo ", \"image\": { \"_\": \"_\"${_iurl}${_height}${_width} }"
+}
 
 ##
 # build an embed object
@@ -101,13 +181,16 @@ build_embed() {
 
     [[ -n "${embed_title}" ]] && local _title=", \"title\": \"${embed_title}\""
     [[ -n "${embed_description}" ]] && local _desc=", \"description\": \"${embed_description}\""
-    [[ -n "${embed_url}" ]] && local _url=", \"url\": \"${embed_url}\""
+    [[ -n "${embed_url}" ]] && local _eurl=", \"url\": \"${embed_url}\""
     [[ -n "${embed_color}" ]] && local _color=", \"color\": ${embed_color}"
     [[ -n "${embed_timestamp}" ]] && [[ "${embed_timestamp}" -eq 1 ]] && local _ts=", \"timestamp\": \"$(get_ts)\""
 
     local _author="$(build_author)"
+    local _thumb="$(build_thumbnail)"
+    local _image="$(build_image)"
+    local _footer="$(build_footer)"
 
-    echo ", \"embeds\": [{ \"top\": \"kek\"${_title}${_desc}${_url}${_color}${_ts}${_author} }]"
+    echo ", \"embeds\": [{ \"_\": \"_\"${_title}${_desc}${_eurl}${_color}${_ts}${_author}${_thumb}${_image}${_footer} }]"
 }
 
 
@@ -117,10 +200,11 @@ build() {
     [[ -z "${text}" ]] && \
         [[ -z "${embed_title}" ]] && \
         [[ -z "${embed_description}" ]] && \
+        [[ -z "${embed_imageurl}" ]] && \
             echo "fatal: nothing to build" && exit 1
 
     # strip 0x prefix and convert hex to dec if necessary
-    [[ -n "${embed_color}" ]] && [[ "${embed_color}" =~ ^0x[0-9a-fA-F]+$ ]] && embed_color="$(( ${embed_color} ))"
+    [[ -n "${embed_color}" ]] && [[ "${embed_color}" =~ ^0x[0-9a-fA-F]+$ ]] && embed_color="$(( $embed_color ))"
 
     # embed color must be an integer, if given
     [[ -n "${embed_color}" ]] && ! [[ "${embed_color}" =~ ^[0-9]+$ ]] && \
@@ -128,12 +212,13 @@ build() {
 
     # let's build, boys
 
+    [[ -n "${is_tts}" ]] && local _tts=", \"tts\": true"
     [[ -n "${text}" ]] && local _content=", \"content\": \"${text}\""
     [[ -n "${username}" ]] && local _username=", \"username\": \"${username}\""
     [[ -n "${avatar_url}" ]] && local _avatar=", \"avatar_url\": \"${avatar_url}\""
     [[ -n "${embedding}" ]] && local _embed="$(build_embed)"
 
-    local _prefix="\"wait\": true${_content}${_username}${_avatar}${_embed}"
+    local _prefix="\"wait\": true${_tts}${_content}${_username}${_avatar}${_embed}"
 
     echo "{ ${_prefix}${_embed} }"
 }
@@ -164,7 +249,7 @@ send()
     # if we have a result, there was a problem. echo and exit.
     [[ -n "${_result}" ]] && \
         echo error! "${_result}" && \
-        echo attempted to send: $(echo "${_sendme}" | jq '.') && \
+        echo attempted to send: "$(echo "${_sendme}" | jq '.')" && \
         exit 1
 
     exit 0
