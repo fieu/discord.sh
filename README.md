@@ -49,6 +49,20 @@ There are three ways to point `discord.sh` at a webhook endpoint, in order of re
 
 ### 3. Using the script
 
+__Note for Docker__
+
+Build the image:
+
+```console
+$ docker build -t discord.sh github.com/ChaoticWeg/discord.sh
+```
+
+Now simply replace the `./discord.sh` down in the examples below with:
+
+```console
+$ docker run -it --rm discord.sh
+```
+
 __Simple chat example__
 
 ```bash
