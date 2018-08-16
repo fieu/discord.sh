@@ -84,19 +84,19 @@ $ ./discord.sh \
 #### Input Type: String
 > This should be set to your Discord webhook URL. You may alternatively set the environment variable `DISCORD_WEBHOOK` to your Discord webhook URL and that way you don't have to pass in the webhook URL inline.
 
-### • `--text`
+### • `--text <string>`
 #### Input Type: String
 > This is basic text like shown below.
 
 ![](https://i.imgur.com/LQx7PLT.png)
 
-### • `--username`
+### • `--username <string>`
 #### Input Type: String
 > You can override the username of the webhook "bot" with this flag.
 
 ![](https://i.imgur.com/jTA9XgW.png)
 
-### • `--avatar`
+### • `--avatar <url>`
 #### Input Type: String
 > You can override the avatar of the webhook "bot" with this flag.
 
@@ -106,19 +106,19 @@ $ ./discord.sh \
 
 Now we're going to look at how to setup a custom embed message.
 
-### • `--title`
+### • `--title <string>`
 > This option allows you to set the title of the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/LRB77rl.png)
 
-### • `--description`
+### • `--description <string>`
 > This option allows you to set the description of the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/Wdo7J1N.png)
 
-### • `--color`
+### • `--color <string>`
 > This option allows you to set color on the left of the embed.
 #### Input Type: String
 #### Input Pattern 1: `0x` + `COLOR HEX`
@@ -128,49 +128,49 @@ Now we're going to look at how to setup a custom embed message.
 
 ![](https://i.imgur.com/cUQPjoK.png)
 
-### • `--url`
+### • `--url <url>`
 > This option allows you to set the URL of the `--title` flag within the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/xqTcE5p.png)
 
-### • `--author`
+### • `--author <string>`
 > This option allows you to set the author name of the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/dL4hvyw.png)
 
-### • `--author-url`
+### • `--author-url <url>`
 > This option allows you to set the author URL of the `--author` flag within the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/0E39bcV.png)
 
-### • `--author-icon`
+### • `--author-icon <url>`
 > This option allows you to set the author icon that sits to the left of the `--author` flag within the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/hHReI85.png)
 
-### • `--image`
+### • `--image <url>`
 > This option allows you to set the image that sits within the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/v3qrJpS.png)
 
-### • `--thumbnail`
+### • `--thumbnail <url>`
 > This option allows you to set the thumbnail that sits to the right within the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/ogzUeHl.png)
 
-### • `--footer`
+### • `--footer <string>`
 > This option allows you to set the thumbnail that sits to the right within the embed.
 #### Input Type: String
 
 ![](https://i.imgur.com/xqlgW9t.png)
 
-### • `--footer-icon`
+### • `--footer-icon <url>`
 > This option allows you to set the footer icon that sites to the right of the `--footer` flag within the embed.
 #### Input Type: String
 
@@ -178,7 +178,7 @@ Now we're going to look at how to setup a custom embed message.
 
 ### • `--timestamp`
 > This option allows you to define whether the timestamp is displayed on the embed message or not.
-#### Input Type: Boolean
+#### Input Type: None
 
 ![](https://i.imgur.com/T5EhvyB.png)
 
