@@ -47,7 +47,11 @@ $ ./discord.sh --webhook-url=$WEBHOOK --text "Hello, world!"
 __Simple chat example with custom username and avatar__
 
 ```console
-$ ./discord.sh --webhook-url=$WEBHOOK --username "NotificationBot" --avatar "https://i.imgur.com/12jyR5Q.png" --text "Hello, world!"
+$ ./discord.sh \
+  --webhook-url=$WEBHOOK \
+  --username "NotificationBot" \
+  --avatar "https://i.imgur.com/12jyR5Q.png" \
+  --text "Hello, world!"
 ```
 
 __Advanced chat example using an embed (using all possible options)__
