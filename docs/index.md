@@ -12,6 +12,9 @@ layout: home
     div.highlight {
         margin: 1em;
     }
+    #badges a {
+        margin: 0.25em;
+    }
 </style>
 
 {% include README.md %}

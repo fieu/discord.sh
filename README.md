@@ -5,8 +5,10 @@
   <br>
 </h4>
 
-<p align="center">
-  <a href="https://travis-ci.org/ChaoticWeg/discord.sh"><img src="https://img.shields.io/travis/ChaoticWeg/discord.sh/master.svg" alt="Travis CI (master branch)"></a>
+<p align="center" id="badges">
+  <a href="https://github.com/chaoticweg/discord.sh/releases/latest"><img src="https://img.shields.io/github/release/chaoticweg/discord.sh.svg?style=for-the-badge"/></a>
+  <a href="https://travis-ci.org/ChaoticWeg/discord.sh"><img src="https://img.shields.io/travis/ChaoticWeg/discord.sh/master.svg?style=for-the-badge" alt="Travis CI (master branch)"></a>
+  <a href="https://travis-ci.org/ChaoticWeg/discord.sh/stargazers"><img src="https://img.shields.io/github/stars/ChaoticWeg/discord.sh.svg?style=for-the-badge" alt="GitHub stars"></a>
 </p>
 
 > Write-only command-line integration for Discord webhooks, written in 100% Bash script. Influenced heavily by [slack-cli][slack].
