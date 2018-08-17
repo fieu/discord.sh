@@ -1,9 +1,3 @@
-<style type="text/css">
-  #badges a {
-    margin: 0.5em;
-  }
-</style>
-
 <h4 align="center">
   <br>
   <a href="https://github.com/ChaoticWeg/discord.sh"><img src="https://i.imgur.com/xZ8r3N0.png" alt="discord.sh"></a>
