@@ -1,0 +1,12 @@
+title: discord.sh
+description: Discord webhook interface written in 100% Bash
+baseurl: "/discord.sh/"
+url: "https://chaoticweg.cc/discord.sh/"
+
+repository: chaoticweg/discord.sh
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - "jekyll-github-metadata"

@@ -1,6 +1,6 @@
 #!/usr/bin/env make
 
-.PHONY: all test lint notify
+.PHONY: all test lint notify site
 
 all:
 	@bash -c 'if [ "$(uname -s)" == "Linux" ]; then make lint; fi'
@@ -24,3 +24,5 @@ send.sh:
 	@wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
 	@chmod +x $@
 
+site:
+	@cp README.md docs/_includes/README.md
