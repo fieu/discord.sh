@@ -124,8 +124,8 @@ Now we're going to look at how to setup a custom embed message.
 ### • `--color <string>`
 > This option allows you to set color on the left of the embed.
 
-#### Input Pattern 1: `0x` + `COLOR HEX`
-#### Input Pattern 2: `COLOR DEC`
+#### Input Syntax 1: `0x` + `COLOR HEX`
+#### Input Syntax 2: `COLOR DEC`
 #### Input Example 1: `--color 0xFFFFFF`
 #### Input Example 2: `--color 16777215`
 
