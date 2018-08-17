@@ -16,6 +16,8 @@
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Options](#options)
+- [Contributing](#contributing)
+- [License](#license)
 
 ### Features
 - Create and send very customizable and beautiful Discord messages 🎉 ✨
@@ -188,6 +190,14 @@ Now we're going to look at how to setup a custom embed message.
 #### Input Type: None
 
 ![](https://i.imgur.com/T5EhvyB.png)
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+[GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 [slack]: https://github.com/rockymadden/slack-cli/
 [curl]: https://curl.haxx.se/
