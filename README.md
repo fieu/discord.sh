@@ -1,3 +1,9 @@
+<style type="text/css">
+  #badges a {
+    margin: 0.5em;
+  }
+</style>
+
 <h4 align="center">
   <br>
   <a href="https://github.com/ChaoticWeg/discord.sh"><img src="https://i.imgur.com/xZ8r3N0.png" alt="discord.sh"></a>
@@ -5,7 +11,7 @@
   <br>
 </h4>
 
-<p align="center">
+<p align="center" id="badges">
   <a href="https://github.com/chaoticweg/discord.sh/releases/latest"><img src="https://img.shields.io/github/release/chaoticweg/discord.sh.svg?style=for-the-badge"/></a>
   <a href="https://travis-ci.org/ChaoticWeg/discord.sh"><img src="https://img.shields.io/travis/ChaoticWeg/discord.sh/master.svg?style=for-the-badge" alt="Travis CI (master branch)"></a>
   <a href="https://travis-ci.org/ChaoticWeg/discord.sh/stargazers"><img src="https://img.shields.io/github/stars/ChaoticWeg/discord.sh.svg?style=for-the-badge" alt="GitHub stars"></a>
