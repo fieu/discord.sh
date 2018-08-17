@@ -13,7 +13,7 @@ layout: home
         margin: 1em;
     }
     #badges a {
-        margin: 0.5em;
+        margin: 0.25em;
     }
 </style>
 
