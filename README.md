@@ -24,7 +24,6 @@
 - Less than 300 lines of pure Bash 😎
 - Extremely lightweight ⚡ 🚀
 - Only requires [curl][curl] and [jq][jq] to run 🔥
-- Works in Docker! 🐳
 
 ### Dependencies
 
@@ -50,20 +49,6 @@ There are three ways to point `discord.sh` at a webhook endpoint, in order of re
 3. Pass the webhook URL as an argument to `discord.sh` using `--webhook-url`
 
 ### 3. Using the script
-
-__Note for Docker__
-
-Build the image:
-
-```console
-$ docker build -t discord.sh github.com/ChaoticWeg/discord.sh
-```
-
-Now simply replace the `./discord.sh` down in the examples below with:
-
-```console
-$ docker run -it --rm discord.sh
-```
 
 __Simple chat example__
 
