@@ -84,7 +84,8 @@ $ ./discord.sh \
   --image "https://i.imgur.com/12jyR5Q.png" \
   --thumbnail "https://i.imgur.com/12jyR5Q.png" \
   --footer "discord.sh v1.0" \
-  --footer-icon "https://i.imgur.com/12jyR5Q.png"
+  --footer-icon "https://i.imgur.com/12jyR5Q.png" \
+  --timestamp
 ```
 
 ## Options
