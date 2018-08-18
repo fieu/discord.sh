@@ -96,12 +96,21 @@ while (( "$#" )); do
         --footer=*) embed_footertext=${1/--footer=/''}; embedding=1; shift;;
         --footer*) embed_footertext=${2}; embedding=1; shift; shift;;
 
+        # file
+        --file=*) file_path=${1/--file=/''}; has_file=1; shift;;
+        --file*) file_path=${2}; has_file=1; shift; shift;;
+
         # unknown argument. bail out
 
         *) echo "fatal: unknown argument '${1}'"; exit 1;;
 
     esac
 done
+
+# files must be standalone
+[[ -n "${embedding}" ]] && [[ -n "${has_file}" ]] && \
+    echo "fatal: files must be sent on their own (i.e. without text or embeds)" && \
+    exit 3
 
 # set webhook url (if none exists after argument handling)
 [[ -z ${webhook_url} ]] && [[ -n "${DISCORD_WEBHOOK}" ]] && webhook_url=${DISCORD_WEBHOOK}
@@ -197,7 +206,8 @@ build_embed() {
 build() {
 
     # need to have SOMETHING to build
-    [[ -z "${text}" ]] && \
+    [[ -z "${has_file}" ]] && \
+        [[ -z "${text}" ]] && \
         [[ -z "${embed_title}" ]] && \
         [[ -z "${embed_description}" ]] && \
         [[ -z "${embed_imageurl}" ]] && \
@@ -255,4 +265,77 @@ send()
     exit 0
 }
 
-if target=$(build); then send "${target}"; exit 0; else echo "${target}"; exit 1; fi
+
+##
+# url-encode a json payload
+##
+urlencode_json() {
+    [[ "$#" -lt 1 ]] && echo "fatal: need something to url-encode" && exit 5
+
+    local length="${#1}"
+    for (( i = 0 ; i < length ; i++ )); do
+        local c="${1:i:1}"
+        case "$c" in
+            [a-zA-Z0-9.~_-]) printf "$c";;
+            *) printf '%%%02X' "'$c" ;;
+        esac
+    done
+}
+
+
+build_file() {
+    [[ ( -z "${has_file}" ) || ( -z "${file_path}" ) ]] && echo "fatal: give me a file" && exit 4
+
+    [[ -n "${username}" ]] && local _username=";username=${username}"
+
+    echo "file=@${file_path}${_username}"
+}
+
+##
+# send a file to the channel
+##
+send_file() {
+    local _payload
+    if ! _payload=$(build_file); then echo ${_payload}; exit 1; fi
+
+    # dry run
+    if [[ ( -n "${is_dry}" ) && ( "${is_dry}" -ne 0 ) ]]; then
+        nc -l -N localhost 8000 &
+        curl -i \
+            -F "${_payload}" \
+            "localhost:8000" 
+        exit 0
+    fi
+
+    [[ -n "${is_dry}" ]] && [[ "${is_dry}" -ne 0 ]] && \
+        echo "${_json}" && exit 0
+
+    # send with correct Content-Type and url-encoded data
+    curl -i \
+        -H "Expect: application/json" \
+        -F "${_payload}" \
+        "${webhook_url}" 
+
+    # error checking 
+
+    sent_ok=$?
+    [[ "${sent_ok}" -eq 0 ]] && exit 0
+
+    echo "fatal: curl exited with code ${sent_ok} when sending file \"${file_path}\""
+}
+
+
+## no file? build and send normally
+if ! [[ "${has_file}" -eq 1 ]]; then
+    if target=$(build); then
+        send "${target}"
+        exit 0
+    else
+        echo "${target}"
+        exit 1
+    fi
+fi
+
+
+## has file. send as such
+send_file
