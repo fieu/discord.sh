@@ -266,23 +266,6 @@ send()
 }
 
 
-##
-# url-encode a json payload
-##
-urlencode_json() {
-    [[ "$#" -lt 1 ]] && echo "fatal: need something to url-encode" && exit 5
-
-    local length="${#1}"
-    for (( i = 0 ; i < length ; i++ )); do
-        local c="${1:i:1}"
-        case "$c" in
-            [a-zA-Z0-9.~_-]) printf "$c";;
-            *) printf '%%%02X' "'$c" ;;
-        esac
-    done
-}
-
-
 build_file() {
     [[ ( -z "${has_file}" ) || ( -z "${file_path}" ) ]] && echo "fatal: give me a file" && exit 4
 
@@ -314,7 +297,7 @@ send_file() {
     curl -i \
         -H "Expect: application/json" \
         -F "${_payload}" \
-        "${webhook_url}" 
+        "${webhook_url}" >/dev/null 2>&1
 
     # error checking 
 
