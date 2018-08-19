@@ -98,8 +98,8 @@ _Note, when specifiying a file, you may not specify any embed options. Per the D
 $ ./discord.sh \
   --webhook-url=$WEBHOOK \
   --file README.md \
-  --username "Notification Bot"
-  --title "Check out this README.md file!" \
+  --username "Notification Bot" \
+  --title "Check out this README.md file!"
 ```
 
 ## Options
