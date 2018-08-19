@@ -120,6 +120,29 @@ done
 [[ -z ${webhook_url} ]] && echo "fatal: no --webhook-url passed and no .webhook file to read from" && exit 1;
 
 
+enforce_limits() {
+    # title <= 256
+    [[ -n "${embed_title}" ]] && [[ "${#embed_title}" -gt 256 ]] && \
+        embed_title="${embed_title::256}" && \
+        echo "warning: embed title limited to ${#embed_title} characters"
+
+    # description <= 2048
+    [[ -n "${embed_description}" ]] && [[ "${#embed_description}" -gt 2048 ]] && \
+        embed_description="${embed_description::2048}" && \
+        echo "warning: embed description limited to ${#embed_description} characters"
+
+    # footer.text <= 2048
+    [[ -n "${embed_footertext}" ]] && [[ "${#embed_footertext}" -gt 2048 ]] && \
+        embed_footertext="${embed_footertext::2048}" && \
+        echo "warning: embed footer text limited to ${#embed_footertext} characters"
+
+    # author.name <= 256
+    [[ -n "${embed_authorname}" ]] && [[ "${#embed_authorname}" -gt 256 ]] && \
+        embed_authorname="${embed_authorname::256}" && \
+        echo "warning: embed author name limited to ${#embed_authorname} characters"
+}
+
+
 ##
 # build embed author object
 ##
@@ -266,26 +289,26 @@ send()
 }
 
 
-build_file() {
-    [[ ( -z "${has_file}" ) || ( -z "${file_path}" ) ]] && echo "fatal: give me a file" && exit 4
-
-    [[ -n "${username}" ]] && local _username=";username=${username}"
-
-    echo "file=@${file_path}${_username}"
-}
-
 ##
 # send a file to the channel
 ##
 send_file() {
-    local _payload
-    if ! _payload=$(build_file); then echo ${_payload}; exit 1; fi
+    # gotta have a file
+    [[ ( -z "${has_file}" ) || ( -z "${file_path}" ) ]] && echo "fatal: give me a file" && exit 4
+
+    local _json
+    if ! _json=$(build); then echo "${_json}"; exit 1; fi
+    _json="payload_json=${_json}"
+
+    echo "INFO filepath: ${file_path}"
+    echo "INFO payload:  ${_json}"
 
     # dry run
     if [[ ( -n "${is_dry}" ) && ( "${is_dry}" -ne 0 ) ]]; then
         nc -l -N localhost 8000 &
         curl -i \
-            -F "${_payload}" \
+            -F "file=@${file_path}" \
+            -F "${_json}" \
             "localhost:8000" 
         exit 0
     fi
@@ -296,7 +319,8 @@ send_file() {
     # send with correct Content-Type and url-encoded data
     curl -i \
         -H "Expect: application/json" \
-        -F "${_payload}" \
+        -F "file=@${file_path}" \
+        -F "${_json}" \
         "${webhook_url}" >/dev/null 2>&1
 
     # error checking 
@@ -307,6 +331,9 @@ send_file() {
     echo "fatal: curl exited with code ${sent_ok} when sending file \"${file_path}\""
 }
 
+
+## enforce discord API limits
+enforce_limits
 
 ## no file? build and send normally
 if ! [[ "${has_file}" -eq 1 ]]; then
