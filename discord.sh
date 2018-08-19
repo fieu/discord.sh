@@ -18,7 +18,7 @@ jq_ok=$?
 
 # jq exists and runs ok
 
-get_ts() { echo "$(date -u --iso-8601=seconds)"; };
+get_ts() { date -u --iso-8601=seconds; };
 
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 webhook_file="${thisdir}/.webhook"
@@ -237,7 +237,7 @@ build() {
             echo "fatal: nothing to build" && exit 1
 
     # strip 0x prefix and convert hex to dec if necessary
-    [[ -n "${embed_color}" ]] && [[ "${embed_color}" =~ ^0x[0-9a-fA-F]+$ ]] && embed_color="$(( $embed_color ))"
+    [[ -n "${embed_color}" ]] && [[ "${embed_color}" =~ ^0x[0-9a-fA-F]+$ ]] && embed_color="$(( embed_color ))"
 
     # embed color must be an integer, if given
     [[ -n "${embed_color}" ]] && ! [[ "${embed_color}" =~ ^[0-9]+$ ]] && \
