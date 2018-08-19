@@ -90,6 +90,18 @@ $ ./discord.sh \
   --timestamp
 ```
 
+__Sending a file (up to 8MB)__
+
+_Note, when specifiying a file, you may not specify any embed options. Per the Discord webhook API, you can't send 1 post containing an embed **and** a file attachment therefor `discord.sh` will stop you from sending both at the same time. If you would like to send an embed **and** then a file attachment you will need to use 2 seperate commands._
+
+```bash
+$ ./discord.sh \
+  --webhook-url=$WEBHOOK \
+  --file README.md \
+  --username "Notification Bot" \
+  --title "Check out this README.md file!"
+```
+
 ## Options
 
 ### • `--webhook-url <url>`
