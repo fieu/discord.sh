@@ -23,7 +23,7 @@
 
 ### Features
 - Create and send very customizable and beautiful Discord messages 🎉 ✨
-- Less than 300 lines of pure Bash 😎
+- Less than 400 lines of pure Bash 😎
 - Extremely lightweight ⚡ 🚀
 - Only requires [curl][curl] and [jq][jq] to run 🔥
 
