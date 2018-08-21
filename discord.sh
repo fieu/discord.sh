@@ -300,9 +300,6 @@ send_file() {
     if ! _json=$(build); then echo "${_json}"; exit 1; fi
     _json="payload_json=${_json}"
 
-    echo "INFO filepath: ${file_path}"
-    echo "INFO payload:  ${_json}"
-
     # dry run
     if [[ ( -n "${is_dry}" ) && ( "${is_dry}" -ne 0 ) ]]; then
         nc -l -N localhost 8000 &
