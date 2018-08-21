@@ -140,6 +140,9 @@ enforce_limits() {
     [[ -n "${embed_authorname}" ]] && [[ "${#embed_authorname}" -gt 256 ]] && \
         embed_authorname="${embed_authorname::256}" && \
         echo "warning: embed author name limited to ${#embed_authorname} characters"
+
+    # strip control characters
+    [[ -n "${embed_description}" ]] && embed_description="$(echo ${embed_description} | tr -d '[:cntrl:]')"
 }
 
 
