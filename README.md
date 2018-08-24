@@ -200,6 +200,8 @@ Please make sure to update tests as appropriate.
 ## License
 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
+<div class="weg-spacer" style="margin:2em;"></div>
+
 Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [Suce][suce]
 
 [slack]: https://github.com/rockymadden/slack-cli/
