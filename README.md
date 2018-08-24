@@ -200,8 +200,12 @@ Please make sure to update tests as appropriate.
 ## License
 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
+Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [Suce][suce]
+
 [slack]: https://github.com/rockymadden/slack-cli/
 [curl]: https://curl.haxx.se/
 [bats]: https://github.com/sstephenson/bats
 [jq]: https://stedolan.github.io/jq/
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
+[weg]: https://chaoticweg.cc
+[suce]: https://github.com/nurdturd
