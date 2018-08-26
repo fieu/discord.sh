@@ -23,7 +23,7 @@
 
 ### Features
 - Create and send very customizable and beautiful Discord messages 🎉 ✨
-- Less than 300 lines of pure Bash 😎
+- Less than 400 lines of pure Bash 😎
 - Extremely lightweight ⚡ 🚀
 - Only requires [curl][curl] and [jq][jq] to run 🔥
 
@@ -99,7 +99,7 @@ $ ./discord.sh \
   --webhook-url=$WEBHOOK \
   --file README.md \
   --username "Notification Bot" \
-  --title "Check out this README.md file!"
+  --text "Check out this README.md file!"
 ```
 
 ## Options
