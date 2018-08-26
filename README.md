@@ -99,7 +99,7 @@ $ ./discord.sh \
   --webhook-url=$WEBHOOK \
   --file README.md \
   --username "Notification Bot" \
-  --title "Check out this README.md file!"
+  --text "Check out this README.md file!"
 ```
 
 ## Options
