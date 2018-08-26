@@ -18,13 +18,14 @@ jq_ok=$?
 
 # jq exists and runs ok
 
-get_ts() { echo "$(date -u --iso-8601=seconds)"; };
+get_ts() { date -u --iso-8601=seconds; };
 
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 webhook_file="${thisdir}/.webhook"
 
 # HELP TEXT PLEASE
 [[ "$#" -eq 0 ]] && echo "help text goes here" && exit 0
+[[ "${1}" == "help" ]] && echo "help text goes here" && exit 0
 
 # gather arguments
 while (( "$#" )); do
@@ -237,7 +238,7 @@ build() {
             echo "fatal: nothing to build" && exit 1
 
     # strip 0x prefix and convert hex to dec if necessary
-    [[ -n "${embed_color}" ]] && [[ "${embed_color}" =~ ^0x[0-9a-fA-F]+$ ]] && embed_color="$(( $embed_color ))"
+    [[ -n "${embed_color}" ]] && [[ "${embed_color}" =~ ^0x[0-9a-fA-F]+$ ]] && embed_color="$(( embed_color ))"
 
     # embed color must be an integer, if given
     [[ -n "${embed_color}" ]] && ! [[ "${embed_color}" =~ ^[0-9]+$ ]] && \
@@ -273,7 +274,7 @@ send()
     # results should be empty if there's no problem. otherwise, there should be code and message
     local _result
 
-     _result=$(curl -H "Content-Type: application/json" -X POST "${webhook_url}" -d "${_sendme}" 2>/dev/null)
+     _result=$(curl -H "Content-Type: application/json" -H "Expect: application/json" -X POST "${webhook_url}" -d "${_sendme}" 2>/dev/null)
      send_ok=$?
      [[ "${send_ok}" -ne 0 ]] && echo "fatal: curl failed with code ${send_ok}" && exit $send_ok
 
@@ -298,10 +299,6 @@ send_file() {
 
     local _json
     if ! _json=$(build); then echo "${_json}"; exit 1; fi
-    _json="payload_json=${_json}"
-
-    echo "INFO filepath: ${file_path}"
-    echo "INFO payload:  ${_json}"
 
     # dry run
     if [[ ( -n "${is_dry}" ) && ( "${is_dry}" -ne 0 ) ]]; then
@@ -320,7 +317,7 @@ send_file() {
     curl -i \
         -H "Expect: application/json" \
         -F "file=@${file_path}" \
-        -F "${_json}" \
+        -F "payload_json=${_json}" \
         "${webhook_url}" >/dev/null 2>&1
 
     # error checking 

@@ -39,16 +39,16 @@
 
 1. [Setup a webhook][webhook] in the desired Discord text channel
 2. Download (or clone) a copy of `discord.sh`
-3. Point `discord.sh` at a webhook endpoint (see above)
+3. Point `discord.sh` at a webhook endpoint (see below)
 4. Go nuts.
 
 ### 2. Specifying a Webhook URL within `discord.sh`
 
-There are three ways to point `discord.sh` at a webhook endpoint, in order of recommended usage:
+There are three ways to point `discord.sh` at a webhook endpoint, in order of priority that `discord.sh` takes:
 
-1. Set an environment variable called `$DISCORD_WEBHOOK`
-2. Create a file called `.webhook` in the same directory as `discord.sh`, containing only the webhook URL
-3. Pass the webhook URL as an argument to `discord.sh` using `--webhook-url`
+1. Pass the webhook URL as an argument to `discord.sh` using `--webhook-url`
+2. Set an environment variable called `$DISCORD_WEBHOOK`
+3. Create a file called `.webhook` in the same directory as `discord.sh`, containing only the webhook URL
 
 ### 3. Using the script
 
@@ -90,9 +90,9 @@ $ ./discord.sh \
   --timestamp
 ```
 
-__Sending a file (up to 8MB)__
+__Sending a file (up to 8MB, per Discord limitations)__
 
-_Note, when specifiying a file, you may not specify any embed options. Per the Discord webhook API, you can't send 1 post containing an embed **and** a file attachment therefor `discord.sh` will stop you from sending both at the same time. If you would like to send an embed **and** then a file attachment you will need to use 2 seperate commands._
+_Note: per the Discord webhook API, posts cannot contain embeds **and** file attachments. Therefore, `discord.sh` will bail out when trying to build a message with embeds and files. The best practice is to send the message with embeds before sending a file._
 
 ```bash
 $ ./discord.sh \
@@ -200,8 +200,14 @@ Please make sure to update tests as appropriate.
 ## License
 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
+<div class="weg-spacer" style="margin:2em;"></div>
+
+Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [Suce][suce]
+
 [slack]: https://github.com/rockymadden/slack-cli/
 [curl]: https://curl.haxx.se/
 [bats]: https://github.com/sstephenson/bats
 [jq]: https://stedolan.github.io/jq/
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
+[weg]: https://chaoticweg.cc
+[suce]: https://github.com/nurdturd
