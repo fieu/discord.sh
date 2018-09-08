@@ -23,9 +23,46 @@ get_ts() { date -u --iso-8601=seconds; };
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 webhook_file="${thisdir}/.webhook"
 
+help_text="Usage: discord.sh --webhook-url=<url> [OPTIONS]
+
+General options:
+  --help                           Display this help and exit
+  --text <text>                    Body text of message to send
+  --tts                            Send message with text-to-speech enabled
+
+Identity options:
+  --username <name>                Set username to <name>
+  --avatar <url>                   Set avatar to image located at <url>
+
+Embedded content options:
+  Main:
+    --title <title>                Display embed title as <title>
+    --description <description>    Display embed description as <description>
+    --url <url>                    URL of content
+    --color <color>                Set color of bar on left border of embed
+      Syntax of <color>:
+        Option 1: 0x<hexadecimal number> (Example: --color 0xFFFFF)
+        Option 2: <decimal number> (Example: --color 16777215)
+    --thumbnail <url>              Set thumbnail to image located at <url>
+
+Author:
+  --author <name>                Display author name as <name>
+  --author-icon <url>            Display author icon as image located at <url>
+  --author-url <url>             Set author title to go to <url> when clicked
+
+Image:
+  --image <url>                  Set image to image located at <url>
+  --image-height <number>        Set image height to <number> pixels
+  --image-width <number>         Set image width to <number> pixels
+
+Footer:
+  --footer <text>                Display <text> in footer
+  --footer-icon <url>            Display image located at <url> in footer
+  --timestamp                    Display timestamp"
+
 # HELP TEXT PLEASE
-[[ "$#" -eq 0 ]] && echo "help text goes here" && exit 0
-[[ "${1}" == "help" ]] && echo "help text goes here" && exit 0
+[[ "$#" -eq 0 ]] && echo "$help_text" && exit 0
+[[ "${1}" == "help" ]] && echo "$help_text" && exit 0
 
 # gather arguments
 while (( "$#" )); do
