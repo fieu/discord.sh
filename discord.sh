@@ -155,7 +155,7 @@ done
 [[ -z ${webhook_url} ]] && [[ -r "${webhook_file}" ]] && [[ -f "${webhook_file}" ]] && webhook_url=$(cat "${webhook_file}")
 
 # no webhook could be found. bail out
-[[ -z ${webhook_url} ]] && echo "fatal: no --webhook-url passed and no .webhook file to read from" && exit 1;
+[[ -z ${webhook_url} ]] && echo "fatal: no --webhook-url passed or no .webhook file to read from" && exit 1;
 
 
 enforce_limits() {
