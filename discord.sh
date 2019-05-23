@@ -18,6 +18,16 @@ jq_ok=$?
 
 # jq exists and runs ok
 
+# check for curl
+
+curl --version >/dev/null 2>&1
+curl_ok=$?
+
+[[ "$curl_ok" -eq 127 ]] && \
+    echo "fatal: curl not installed" && exit 2
+
+# curl exists and runs ok
+
 get_ts() { date -u --iso-8601=seconds; };
 
 thisdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
