@@ -36,14 +36,14 @@ webhook_file="${thisdir}/.webhook"
 help_text="Usage: discord.sh --webhook-url=<url> [OPTIONS]
 
 General options:
-  --help                           Display this help and exit
-  --text <text>                    Body text of message to send
-  --tts                            Send message with text-to-speech enabled
-  --webhook-url                    Specify the Discord webhook URL
+  --help                         Display this help and exit
+  --text <text>                  Body text of message to send
+  --tts                          Send message with text-to-speech enabled
+  --webhook-url                  Specify the Discord webhook URL
 
 Identity options:
-  --username <name>                Set username to <name>
-  --avatar <url>                   Set avatar to image located at <url>
+  --username <name>              Set username to <name>
+  --avatar <url>                 Set avatar to image located at <url>
 
 Embedded content options:
   Main:
