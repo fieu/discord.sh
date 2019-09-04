@@ -18,6 +18,8 @@
 - [Dependencies](#dependencies)
 - [Usage](#usage)
 - [Options](#options)
+- [Tips](#tips)
+- - [Proper character escaping](#proper-character-escaping)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -192,6 +194,70 @@ Now we're going to look at how to setup a custom embed message.
 
 ![](https://i.imgur.com/T5EhvyB.png)
 
+## Tips
+### Proper character escaping
+If you want to show the output of a file or `stdin` via [discord.sh][discord.sh], and your file includes special characters such as ``backticks (`)`` and `"`, then you can't simply `cat filename`. You will need to properly escape special characters.
+
+One of the easiest methods to output properly escaped text from a file is to use `jq`, `cut`, and `rev`
+
+#### Prerequisites
+* [jq][jq] - Character escaping
+* [cut][cut] - Cut characters from string (part of [coreutils][coreutils], included by default on most systems)
+* [rev][rev] - Reversing of characters (part of [util-linux][util-linux], included by default on most systems)
+
+
+#### Usage (contents of file)
+1. Simply pass `filename` to the following command to escape the file contents to `stdout`:
+```bash
+jq -Rs . <filename | cut -c 2- | rev | cut -c 2- | rev
+```
+---
+#### Usage (contents of `stdin`)
+1. Simply pipe `stdin` to the beginning of the following command to escape the contents to `stdout`:
+```bash
+cat `filename` | jq -Rs . | cut -c 2- | rev | cut -c 2- | rev
+```
+---
+2. Assuming `filename` or `stdin` contains the following contents when viewed in an editor such as `vim` or `nano`:
+```
+    ```php
+    <?php echo "Hello, world!" ?>
+    ```
+
+    :smile:
+
+    Bobs your uncle. !@#$%^&*()_}{":?><,./;'[]-=
+```
+3. If you ran the command, the output would be:
+```
+```php\n<?php echo \"Hello, world!\" ?>\n```\n\n:smile:\n\nBobs your uncle. !@#$%^&*()_}{\":?><,./;'[]-=\n
+```
+4. In order to use it in [discord.sh][discord.sh], all we have to do is pass that command within a [subshell](https://en.wikipedia.org/wiki/Child_process).
+---
+5. Usage (contents of file)
+```bash
+./discord.sh --webhook-url $WEBHOOK_URL --text "$(jq -Rs . <filename | cut -c 2- | rev | cut -c 2- | rev)"
+```
+---
+5. Usage (contents of `stdin`)
+```bash
+./discord.sh --webhook-url $WEBHOOK_URL --text "$(cat filename | jq -Rs . | cut -c 2- | rev | cut -c 2- | rev)"
+```
+5. Result:
+
+![Screenshot](https://i.imgur.com/VZH5Xsj.png)
+
+#### Usage (contents of stdin)
+Simply pass `filename` to the following command to escape the file to `stdout`:
+```bash
+jq -Rs . <filename | cut -c 2- | rev | cut -c 2- | rev
+```
+
+
+#### Explanation
+`jq` takes the file in as `stdin` then escapes it. We then pipe it to cut to remove the first 2 "indexes" meaning the first character which is a `"` that `jq` adds. We then pip that into `rev` to reverse the text as a whole, then pipe that into `cut` to remove the first 2 "indexes" or first (last) character which is once again a `"` that `jq` adds. Finally we re-reverse the text back to the standard order. The command will output to `stdout`
+
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
@@ -204,11 +270,19 @@ Please make sure to update tests as appropriate.
 
 Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [Suce][suce] and [Matt][matt]
 
+<!-- Programs -->
 [slack]: https://github.com/rockymadden/slack-cli/
+[discord.sh]: https://github.com/ChaoticWeg/discord.sh
 [curl]: https://curl.haxx.se/
 [bats]: https://github.com/sstephenson/bats
 [jq]: https://stedolan.github.io/jq/
+[rev]: https://linux.die.net/man/1/rev
+[cut]: https://linux.die.net/man/1/cut
+[coreutils]: https://www.gnu.org/software/coreutils/coreutils.html
+[util-linux]: https://en.wikipedia.org/wiki/Util-linux
+<!-- Documentation -->
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
+<!--  Contributors -->
 [weg]: https://chaoticweg.cc
-[suce]: https://github.com/nurdturd
+[suce]: https://github.com/NurdTurd
 [matt]: https://github.com/MatthewDietrich
