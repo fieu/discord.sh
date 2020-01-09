@@ -74,7 +74,7 @@ __Advanced chat example using an embed (using all possible options)__
 
 ```bash
 $ ./discord.sh \
-  --webhook-url=$WEBHOOK \
+  --webhook-url="$WEBHOOK" \
   --username "NotificationBot" \
   --avatar "https://i.imgur.com/12jyR5Q.png" \
   --text "Check out this embed!" \
