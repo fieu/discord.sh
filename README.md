@@ -57,14 +57,14 @@ There are three ways to point `discord.sh` at a webhook endpoint, in order of pr
 __Simple chat example__
 
 ```bash
-$ ./discord.sh --webhook-url=$WEBHOOK --text "Hello, world!"
+$ ./discord.sh --webhook-url="$WEBHOOK" --text "Hello, world!"
 ```
 
 __Simple chat example with custom username and avatar__
 
 ```bash
 $ ./discord.sh \
-  --webhook-url=$WEBHOOK \
+  --webhook-url="$WEBHOOK" \
   --username "NotificationBot" \
   --avatar "https://i.imgur.com/12jyR5Q.png" \
   --text "Hello, world!"
@@ -98,7 +98,7 @@ _Note: per the Discord webhook API, posts cannot contain embeds **and** file att
 
 ```bash
 $ ./discord.sh \
-  --webhook-url=$WEBHOOK \
+  --webhook-url="$WEBHOOK" \
   --file README.md \
   --username "Notification Bot" \
   --text "Check out this README.md file!"
@@ -236,12 +236,12 @@ cat `filename` | jq -Rs . | cut -c 2- | rev | cut -c 2- | rev
 ---
 5. Usage (contents of file)
 ```bash
-./discord.sh --webhook-url $WEBHOOK_URL --text "$(jq -Rs . <filename | cut -c 2- | rev | cut -c 2- | rev)"
+./discord.sh --webhook-url "$WEBHOOK_URL" --text "$(jq -Rs . <filename | cut -c 2- | rev | cut -c 2- | rev)"
 ```
 ---
 5. Usage (contents of `stdin`)
 ```bash
-./discord.sh --webhook-url $WEBHOOK_URL --text "$(cat filename | jq -Rs . | cut -c 2- | rev | cut -c 2- | rev)"
+./discord.sh --webhook-url "$WEBHOOK_URL" --text "$(cat filename | jq -Rs . | cut -c 2- | rev | cut -c 2- | rev)"
 ```
 5. Result:
 
