@@ -5,7 +5,7 @@ total_exitcode=0
 for filename in tests/*.bats; do
     echo -ne "\n  -- bats: ${filename}\n\n"
 
-    bats --pretty "${filename}"
+    bats "${filename}"
     exitcode=$?
 
     [[ "${exitcode}" -ne 0 ]] && \
