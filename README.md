@@ -82,12 +82,12 @@ $ ./discord.sh \
   --description "This is a description\nPretty cool huh?" \
   --color "0xFFFFFF" \
   --url "https://github.com/ChaoticWeg/discord.sh" \
-  --author "discord.sh v1.0" \
+  --author "discord.sh" \
   --author-url "https://github.com/ChaoticWeg/discord.sh" \
   --author-icon "https://i.imgur.com/12jyR5Q.png" \
   --image "https://i.imgur.com/12jyR5Q.png" \
   --thumbnail "https://i.imgur.com/12jyR5Q.png" \
-  --footer "discord.sh v1.0" \
+  --footer "discord.sh" \
   --footer-icon "https://i.imgur.com/12jyR5Q.png" \
   --timestamp
 ```
