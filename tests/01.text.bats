@@ -59,7 +59,7 @@ load pre
 
 @test "text: malformed webhook URL (should fail)" {
     run bash discord.sh --text "lol" --webhook-url "lol not a webhook"
-    [ "${lines[0]}" = "fatal: curl failed with code 6" ]
-    # [ "$status" -eq 3 ]
+    [ "${lines[0]}" = "fatal: curl failed with code 3" ] || [ "${lines[0]}" = "fatal: curl failed with code 6" ]
+    [ "$status" -eq 3 ] || [ "$status" -eq 6 ]
 }
 
