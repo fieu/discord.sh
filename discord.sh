@@ -78,6 +78,8 @@ Footer:
 # gather arguments
 while (( "$#" )); do
     case "${1}"  in
+	--help) echo "$help_text" && exit 0;;
+	-h) echo "$help_text" && exit 0;;
 
         --dry-run) is_dry=1; shift;;
         --tts) is_tts=1; shift;;
