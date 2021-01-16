@@ -284,5 +284,5 @@ Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [fieu][fieu] 
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 <!--  Contributors -->
 [weg]: https://chaoticweg.cc
-[suce]: https://github.com/fieu
+[fieu]: https://github.com/fieu
 [matt]: https://github.com/MatthewDietrich
