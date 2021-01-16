@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Discord.sh - Discord on command-line
-# by ChaoticWeg and Suce
+# by ChaoticWeg and fieu
 
 shopt -s lastpipe   # avoid subshell weirdness hopefully
 shopt -so pipefail  # hopefully correctly get $? in substitution
