@@ -202,7 +202,7 @@ Please make sure to update tests as appropriate.
 
 <div class="weg-spacer" style="margin:2em;"></div>
 
-Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [Suce][suce] and [Matt][matt]
+Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [fieu][fieu] and [Matt][matt]
 
 [slack]: https://github.com/rockymadden/slack-cli/
 [curl]: https://curl.haxx.se/
@@ -210,5 +210,5 @@ Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [Suce][suce] 
 [jq]: https://stedolan.github.io/jq/
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 [weg]: https://chaoticweg.cc
-[suce]: https://github.com/nurdturd
+[fieu]: https://github.com/fieu
 [matt]: https://github.com/MatthewDietrich
