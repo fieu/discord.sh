@@ -268,7 +268,7 @@ Please make sure to update tests as appropriate.
 
 <div class="weg-spacer" style="margin:2em;"></div>
 
-Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [Suce][suce] and [Matt][matt]
+Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [fieu][fieu] and [Matt][matt]
 
 <!-- Programs -->
 [slack]: https://github.com/rockymadden/slack-cli/
@@ -284,5 +284,5 @@ Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [Suce][suce] 
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 <!--  Contributors -->
 [weg]: https://chaoticweg.cc
-[suce]: https://github.com/NurdTurd
+[suce]: https://github.com/fieu
 [matt]: https://github.com/MatthewDietrich
