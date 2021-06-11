@@ -274,7 +274,7 @@ Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [fieu][fieu] 
 [slack]: https://github.com/rockymadden/slack-cli/
 [discord.sh]: https://github.com/ChaoticWeg/discord.sh
 [curl]: https://curl.haxx.se/
-[bats]: https://github.com/sstephenson/bats
+[bats]: https://github.com/bats-core/bats-core
 [jq]: https://stedolan.github.io/jq/
 [rev]: https://linux.die.net/man/1/rev
 [cut]: https://linux.die.net/man/1/cut
