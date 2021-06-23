@@ -87,6 +87,8 @@ $ ./discord.sh \
   --author-icon "https://i.imgur.com/12jyR5Q.png" \
   --image "https://i.imgur.com/12jyR5Q.png" \
   --thumbnail "https://i.imgur.com/12jyR5Q.png" \
+  --field "Author;ChaoticWeg" \
+  --field "Author;fieu" \
   --footer "discord.sh" \
   --footer-icon "https://i.imgur.com/12jyR5Q.png" \
   --timestamp
