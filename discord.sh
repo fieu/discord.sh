@@ -28,7 +28,7 @@ curl_ok=$?
 
 get_ts() { date -u --iso-8601=seconds; };
 
-thisdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+thisdir="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 webhook_file="${thisdir}/.webhook"
 
 help_text="Usage: discord.sh --webhook-url=<url> [OPTIONS]
