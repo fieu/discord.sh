@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 total_exitcode=0
+export DISCORD_WEBHOOK="$DISCORD_WEBHOOK_URL"
 
 for filename in tests/*.bats; do
     echo -ne "\n  -- bats: ${filename}\n\n"

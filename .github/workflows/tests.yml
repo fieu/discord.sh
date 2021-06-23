@@ -1,0 +1,25 @@
+name: Tests
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Bats
+        run: |
+          git clone https://github.com/bats-core/bats-core.git
+          cd bats-core
+          ./install.sh /usr/local
+      - name: Run linter
+        run: |
+          make lint
+      - name: Run tests
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          make test
