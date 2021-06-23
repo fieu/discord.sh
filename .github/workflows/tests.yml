@@ -15,9 +15,6 @@ jobs:
           git clone https://github.com/bats-core/bats-core.git
           cd bats-core
           sudo ./install.sh /usr/local
-      - name: Run linter
-        run: |
-          make lint
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
       - name: Run tests
