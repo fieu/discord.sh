@@ -472,7 +472,7 @@ load pre
         --footer-icon "https://i.imgur.com/o96JZ1Y.png" \
         --timestamp \
         --field "Name;Value;false" \
-        --field "Foo;Bar" \
+        --field "Foo;Bar"
     [ "$status" -eq 0 ]
 }
 
