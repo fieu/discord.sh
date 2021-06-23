@@ -15,8 +15,11 @@ jobs:
           git clone https://github.com/bats-core/bats-core.git
           cd bats-core
           sudo ./install.sh /usr/local
+          cd .. && rm -rf bats-core
       - name: Run ShellCheck
         uses: ludeeus/action-shellcheck@master
+        with:
+          format: checkstyle
       - name: Run tests
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
