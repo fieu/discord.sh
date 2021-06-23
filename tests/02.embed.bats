@@ -471,8 +471,8 @@ load pre
         --footer "Test footer" \
         --footer-icon "https://i.imgur.com/o96JZ1Y.png" \
         --timestamp \
-        --field "Name,Value,false" \
-        --field "Foo;Bar"
+        --field "Name;Value;false" \
+        --field "Foo;Bar" \
     [ "$status" -eq 0 ]
 }
 
@@ -490,8 +490,8 @@ load pre
         --footer="Test footer" \
         --footer-icon="https://i.imgur.com/o96JZ1Y.png" \
         --timestamp \
-        --field="Name,Value,false" \
-        --field="Foo;Bar"
+        --field="Name;Value;false" \
+        --field "Foo;Bar"
     [ "$status" -eq 0 ]
 }
 @test "embed: title, description, color, url, author, author-url, author-icon, image, thumbnail, footer, footer-icon, timestamp, fields --gnu-style varied" {
@@ -508,7 +508,7 @@ load pre
         --footer "Test footer" \
         --footer-icon="https://i.imgur.com/o96JZ1Y.png" \
         --timestamp \
-        --field "Name,Value,false" \
+        --field "Name;Value;false" \
         --field="Foo;Bar"
     [ "$status" -eq 0 ]
 }
