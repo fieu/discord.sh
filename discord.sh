@@ -54,29 +54,29 @@ Embedded content options:
         Option 2: <decimal number> (Example: --color 16777215)
     --thumbnail <url>            Set thumbnail to image located at <url>
 
-Author:
-  --author <name>                Display author name as <name>
-  --author-icon <url>            Display author icon as image located at <url>
-  --author-url <url>             Set author title to go to <url> when clicked
+  Author:
+    --author <name>                Display author name as <name>
+    --author-icon <url>            Display author icon as image located at <url>
+    --author-url <url>             Set author title to go to <url> when clicked
 
-Image:
-  --image <url>                  Set image to image located at <url>
-  --image-height <number>        Set image height to <number> pixels
-  --image-width <number>         Set image width to <number> pixels
+  Image:
+    --image <url>                  Set image to image located at <url>
+    --image-height <number>        Set image height to <number> pixels
+    --image-width <number>         Set image width to <number> pixels
 
-Fields:
-  --field <name,value,inline>  Add field to embed
-    Example: --field \"CPU;95%;false\"
-    Example: --field \"Hostname;localhost\"
-    Types:
-        name: string
-        value: string
-        inline: boolean (default: true)
+  Fields:
+    --field <name,value,inline>  Add field to embed
+        Example: --field \"CPU;95%;false\"
+        Example: --field \"Hostname;localhost\"
+        Types:
+            name: string
+            value: string
+            inline: boolean (default: true) (optional)
 
-Footer:
-  --footer <text>                Display <text> in footer
-  --footer-icon <url>            Display image located at <url> in footer
-  --timestamp                    Display timestamp"
+  Footer:
+    --footer <text>                Display <text> in footer
+    --footer-icon <url>            Display image located at <url> in footer
+    --timestamp                    Display timestamp"
 
 # HELP TEXT PLEASE
 [[ "$#" -eq 0 ]] && echo "$help_text" && exit 0

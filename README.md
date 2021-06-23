@@ -178,6 +178,19 @@ Now we're going to look at how to setup a custom embed message.
 
 ![](https://i.imgur.com/ogzUeHl.png)
 
+### • `--field <name;value;inline>`
+> This option allows you to add fields to your embed. You may use this option multiple times up to 25 times.
+Example usage:
+```bash
+$ ./discord.sh \
+  --webhook-url="$WEBHOOK" \
+  --username "System Status" \
+  --description "Here are your system stats!" \
+  --field "Hostname;localhost;false" \
+  --field "CPU;95%" \
+  --field "Disk Usage;120/512GB"
+```
+![](https://i.imgur.com/wPKmCdM.png)
 ### • `--footer <string>`
 > This option allows you to set the thumbnail that sits to the right within the embed.
 
@@ -190,8 +203,6 @@ Now we're going to look at how to setup a custom embed message.
 
 ### • `--timestamp`
 > This option allows you to define whether the timestamp is displayed on the embed message or not.
-#### Input Type: None
-
 ![](https://i.imgur.com/T5EhvyB.png)
 
 ## Tips
@@ -268,7 +279,7 @@ Please make sure to update tests as appropriate.
 
 <div class="weg-spacer" style="margin:2em;"></div>
 
-Made with 💖 by [ChaoticWeg][weg] || Documentation and design by [fieu][fieu] and [Matt][matt]
+Made with 💖 by [ChaoticWeg][weg] & [fieu][fieu] || Documentation and design by [fieu][fieu] and [Matt][matt]
 
 <!-- Programs -->
 [slack]: https://github.com/rockymadden/slack-cli/
