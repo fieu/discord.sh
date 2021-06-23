@@ -30,7 +30,7 @@ curl_ok=$?
 
 get_ts() { date -u --iso-8601=seconds; };
 
-thisdir="$(cd "$(dirname $(readlink -f "${BASH_SOURCE[0]}"))" && pwd)"
+thisdir="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 webhook_file="${thisdir}/.webhook"
 
 help_text="Usage: discord.sh --webhook-url=<url> [OPTIONS]
@@ -258,6 +258,12 @@ build_image() {
 # build an embed object
 ##
 build_embed() {
+    local _ts
+    local _author
+    local _thumb
+    local _image
+    local _footer
+
     # should we embed? if not, bail out without error
     [[ -z "${embedding}" ]] && exit;
     [[ "${embedding}" -ne 1 ]] && exit;
@@ -266,18 +272,22 @@ build_embed() {
     [[ -n "${embed_description}" ]] && local _desc=", \"description\": \"${embed_description}\""
     [[ -n "${embed_url}" ]] && local _eurl=", \"url\": \"${embed_url}\""
     [[ -n "${embed_color}" ]] && local _color=", \"color\": ${embed_color}"
-    [[ -n "${embed_timestamp}" ]] && [[ "${embed_timestamp}" -eq 1 ]] && local _ts=", \"timestamp\": \"$(get_ts)\""
+    [[ -n "${embed_timestamp}" ]] && [[ "${embed_timestamp}" -eq 1 ]] && _ts=", \"timestamp\": \"$(get_ts)\""
 
-    local _author="$(build_author)"
-    local _thumb="$(build_thumbnail)"
-    local _image="$(build_image)"
-    local _footer="$(build_footer)"
+    _author="$(build_author)"
+    _thumb="$(build_thumbnail)"
+    _image="$(build_image)"
+    _footer="$(build_footer)"
 
     echo ", \"embeds\": [{ \"_\": \"_\"${_title}${_desc}${_eurl}${_color}${_ts}${_author}${_thumb}${_image}${_footer} }]"
 }
 
 
 build() {
+    local _content
+    local _username
+    local _avatar
+    local _embed
 
     # need to have SOMETHING to build
     [[ -z "${has_file}" ]] && \
@@ -295,12 +305,11 @@ build() {
         echo "fatal: illegal color '${embed_color}'" && exit 1
 
     # let's build, boys
-
-    [[ -n "${is_tts}" ]] && local _tts=", \"tts\": true"
-    [[ -n "${text}" ]] && local _content=", \"content\": \"${text}\""
-    [[ -n "${username}" ]] && local _username=", \"username\": \"${username}\""
-    [[ -n "${avatar_url}" ]] && local _avatar=", \"avatar_url\": \"${avatar_url}\""
-    [[ -n "${embedding}" ]] && local _embed="$(build_embed)"
+    [[ -n "${is_tts}" ]] && _tts=", \"tts\": true"
+    [[ -n "${text}" ]] && _content=", \"content\": \"${text}\""
+    [[ -n "${username}" ]] && _username=", \"username\": \"${username}\""
+    [[ -n "${avatar_url}" ]] && _avatar=", \"avatar_url\": \"${avatar_url}\""
+    [[ -n "${embedding}" ]] && _embed="$(build_embed)"
 
     local _prefix="\"wait\": true${_tts}${_content}${_username}${_avatar}${_embed}"
 
