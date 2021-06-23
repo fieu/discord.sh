@@ -19,18 +19,16 @@ jq_ok=$?
 # jq exists and runs ok
 
 # check for curl
-
 curl --version >/dev/null 2>&1
 curl_ok=$?
 
 [[ "$curl_ok" -eq 127 ]] && \
     echo "fatal: curl not installed" && exit 2
-
 # curl exists and runs ok
 
 get_ts() { date -u --iso-8601=seconds; };
 
-thisdir="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+thisdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 webhook_file="${thisdir}/.webhook"
 
 help_text="Usage: discord.sh --webhook-url=<url> [OPTIONS]
@@ -66,6 +64,15 @@ Image:
   --image-height <number>        Set image height to <number> pixels
   --image-width <number>         Set image width to <number> pixels
 
+Fields:
+  --field <name,value,inline>  Add field to embed
+    Example: --field \"CPU;95%;false\"
+    Example: --field \"Hostname;localhost\"
+    Types:
+        name: string
+        value: string
+        inline: boolean (default: true)
+
 Footer:
   --footer <text>                Display <text> in footer
   --footer-icon <url>            Display image located at <url> in footer
@@ -74,6 +81,31 @@ Footer:
 # HELP TEXT PLEASE
 [[ "$#" -eq 0 ]] && echo "$help_text" && exit 0
 [[ "${1}" == "help" ]] && echo "$help_text" && exit 0
+
+##
+# add field to stack
+##
+add_field() {
+    local _name
+    local _value
+    local _inline
+    fields="${fields:=}"
+
+    # don't add if not embedding
+    [[ -z "${embedding}" ]] && exit;
+    [[ "${embedding}" -ne 1 ]] && exit;
+
+    _name="$(echo "$1" | cut -d';' -f1)"
+    _value="$(echo "$1" | cut -d';' -f2)"
+    _inline="$(echo "$1" | cut -d';' -f3)"
+    _inline="${_inline:-true}"
+
+    fields="${fields}{\"name\": \"${_name}\", \"value\": \"${_value}\", \"inline\": ${_inline}},"
+}
+
+build_fields() {
+    echo ", \"fields\": [${fields::-1} ]"
+}
 
 # gather arguments
 while (( "$#" )); do
@@ -97,7 +129,6 @@ while (( "$#" )); do
         --text*) text=${2}; shift; shift;;
 
         # embed goodies
-
         --title=*) embed_title=${1/--title=/''}; embedding=1; shift;;
         --title*) embed_title=${2}; embedding=1; shift; shift;;
 
@@ -113,7 +144,6 @@ while (( "$#" )); do
         --timestamp*) embed_timestamp=1; shift;;
 
         # embed author
-
         --author-url=*) embed_authorurl=${1/--author-url=/''}; embedding=1; shift;;
         --author-url*) embed_authorurl=${2}; embedding=1; shift; shift;;
 
@@ -124,12 +154,10 @@ while (( "$#" )); do
         --author*) embed_authorname=${2}; embedding=1; shift; shift;;
 
         # thumbnail
-
         --thumbnail=*) embed_thumbnail=${1/--thumbnail=/''}; embedding=1; shift;;
         --thumbnail*) embed_thumbnail=${2}; embedding=1; shift; shift;;
 
         # image
-
         --image-height=*) embed_imageheight=${1/--image-height=/''}; embedding=1; shift;;
         --image-height*) embed_imageheight=${2}; embedding=1; shift; shift;;
 
@@ -139,8 +167,11 @@ while (( "$#" )); do
         --image=*) embed_imageurl=${1/--image=/''}; embedding=1; shift;;
         --image*) embed_imageurl=${2}; embedding=1; shift; shift;;
 
-        # footer
+        # fields
+        --field=*) add_field "${1/--field=/''}"; embedding=1; shift;;
+        --field*) add_field "${2}"; embedding=1; shift; shift;;
 
+        # footer
         --footer-icon=*) embed_footericon=${1/--footer-icon=/''}; embedding=1; shift;;
         --footer-icon*) embed_footericon=${2}; embedding=1; shift; shift;;
 
@@ -192,7 +223,6 @@ enforce_limits() {
         embed_authorname="${embed_authorname::256}" && \
         echo "warning: embed author name limited to ${#embed_authorname} characters"
 }
-
 
 ##
 # build embed author object
@@ -263,6 +293,7 @@ build_embed() {
     local _thumb
     local _image
     local _footer
+    local _fields
 
     # should we embed? if not, bail out without error
     [[ -z "${embedding}" ]] && exit;
@@ -277,9 +308,10 @@ build_embed() {
     _author="$(build_author)"
     _thumb="$(build_thumbnail)"
     _image="$(build_image)"
+    _fields="$(build_fields)"
     _footer="$(build_footer)"
 
-    echo ", \"embeds\": [{ \"_\": \"_\"${_title}${_desc}${_eurl}${_color}${_ts}${_author}${_thumb}${_image}${_footer} }]"
+    echo ", \"embeds\": [{ \"_\": \"_\"${_title}${_desc}${_eurl}${_color}${_ts}${_author}${_thumb}${_image}${_fields}${_footer} }]"
 }
 
 
@@ -347,7 +379,6 @@ send()
 
     exit 0
 }
-
 
 ##
 # send a file to the channel

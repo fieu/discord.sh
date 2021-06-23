@@ -419,7 +419,8 @@ load pre
         --image "https://i.imgur.com/o96JZ1Y.png" \
         --thumbnail "https://i.imgur.com/o96JZ1Y.png" \
         --footer "Test footer" \
-        --footer-icon "https://i.imgur.com/o96JZ1Y.png"
+        --footer-icon "https://i.imgur.com/o96JZ1Y.png" \
+        --timestamp
     [ "$status" -eq 0 ]
 }
 
@@ -435,7 +436,8 @@ load pre
         --image="https://i.imgur.com/o96JZ1Y.png" \
         --thumbnail="https://i.imgur.com/o96JZ1Y.png" \
         --footer="Test footer" \
-        --footer-icon="https://i.imgur.com/o96JZ1Y.png"
+        --footer-icon="https://i.imgur.com/o96JZ1Y.png" \
+        --timestamp
     [ "$status" -eq 0 ]
 }
 @test "embed: title, description, color, url, author, author-url, author-icon, image, thumbnail, footer, footer-icon, timestamp --gnu-style varied" {
@@ -450,6 +452,63 @@ load pre
         --image "https://i.imgur.com/o96JZ1Y.png" \
         --thumbnail="https://i.imgur.com/o96JZ1Y.png" \
         --footer "Test footer" \
-        --footer-icon="https://i.imgur.com/o96JZ1Y.png"
+        --footer-icon="https://i.imgur.com/o96JZ1Y.png" \
+        --timestamp
+    [ "$status" -eq 0 ]
+}
+# Title, description, color, url, author, author-url, author-icon, image, thumbnail, footer, footer-icon, timestamp, fields
+@test "embed: title, description, color, url, author, author-url, author-icon, image, thumbnail, footer, footer-icon, timestamp, fields --gnu-style <>" {
+    run bash discord.sh \
+        --title "Test title" \
+        --description "Test description" \
+        --color "0xFFFFFF" \
+        --url "https://github.com/ChaoticWeg/discord.sh" \
+        --author "Test author" \
+        --author-url "https://github.com/ChaoticWeg/discord.sh" \
+        --author-icon "https://i.imgur.com/o96JZ1Y.png" \
+        --image "https://i.imgur.com/o96JZ1Y.png" \
+        --thumbnail "https://i.imgur.com/o96JZ1Y.png" \
+        --footer "Test footer" \
+        --footer-icon "https://i.imgur.com/o96JZ1Y.png" \
+        --timestamp \
+        --fields "Name,Value,false" \
+        --fields "Foo;Bar"
+    [ "$status" -eq 0 ]
+}
+
+@test "embed: title, description, color, url, author, author-url, author-icon, image, thumbnail, footer, footer-icon, timestamp, fields --gnu-style=<>" {
+    run bash discord.sh \
+        --title="Test title" \
+        --description="Test description" \
+        --color="0xFFFFFF" \
+        --url="https://github.com/ChaoticWeg/discord.sh" \
+        --author="Test author" \
+        --author-url="https://github.com/ChaoticWeg/discord.sh" \
+        --author-icon="https://i.imgur.com/o96JZ1Y.png" \
+        --image="https://i.imgur.com/o96JZ1Y.png" \
+        --thumbnail="https://i.imgur.com/o96JZ1Y.png" \
+        --footer="Test footer" \
+        --footer-icon="https://i.imgur.com/o96JZ1Y.png" \
+        --timestamp \
+        --fields="Name,Value,false" \
+        --fields="Foo;Bar"
+    [ "$status" -eq 0 ]
+}
+@test "embed: title, description, color, url, author, author-url, author-icon, image, thumbnail, footer, footer-icon, timestamp, fields --gnu-style varied" {
+    run bash discord.sh \
+        --title="Test title" \
+        --description "Test description" \
+        --color="0xFFFFFF" \
+        --url "https://github.com/ChaoticWeg/discord.sh" \
+        --author="Test author" \
+        --author-url "https://github.com/ChaoticWeg/discord.sh" \
+        --author-icon="https://i.imgur.com/o96JZ1Y.png" \
+        --image "https://i.imgur.com/o96JZ1Y.png" \
+        --thumbnail="https://i.imgur.com/o96JZ1Y.png" \
+        --footer "Test footer" \
+        --footer-icon="https://i.imgur.com/o96JZ1Y.png" \
+        --timestamp \
+        --fields "Name,Value,false" \
+        --fields="Foo;Bar"
     [ "$status" -eq 0 ]
 }
