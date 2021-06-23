@@ -14,7 +14,7 @@ lint: /tmp/shellcheck-latest/shellcheck
 	@$< run_tests.sh
 
 /tmp/shellcheck-latest/shellcheck:
-	@wget -c 'https://goo.gl/ZzKHFv' -O - | tar -xvJ -C /tmp/ >/dev/null 2>&1
+	@wget -c 'https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz' -O - | tar -xvJ -C /tmp/ >/dev/null 2>&1
 	@chmod +x $@
 
 notify: send.sh
