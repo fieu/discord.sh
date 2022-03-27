@@ -26,7 +26,7 @@ curl_ok=$?
     echo "fatal: curl not installed" && exit 2
 # curl exists and runs ok
 
-get_ts() { date -u --iso-8601=seconds; };
+get_ts() { date -u -Iseconds; };
 
 thisdir="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
 webhook_file="${thisdir}/.webhook"
