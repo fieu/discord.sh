@@ -31,8 +31,9 @@
 
 ### Dependencies
 
-- [curl][curl] (http requests)
+- [bash][bash] (GNU Bourne-Again SHell)
 - [bats][bats] (tests)
+- [curl][curl] (http requests)
 - [jq][jq] (JSON parsing)
 
 ## Usage
@@ -287,6 +288,7 @@ Made with 💖 by [ChaoticWeg][weg] & [fieu][fieu] || Documentation and design b
 [slack]: https://github.com/rockymadden/slack-cli/
 [discord.sh]: https://github.com/ChaoticWeg/discord.sh
 [curl]: https://curl.haxx.se/
+[bash]: https://www.gnu.org/software/bash/
 [bats]: https://github.com/bats-core/bats-core
 [jq]: https://stedolan.github.io/jq/
 [rev]: https://linux.die.net/man/1/rev
