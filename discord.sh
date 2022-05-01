@@ -191,7 +191,7 @@ done
 
 # files must be standalone
 [[ -n "${embedding}" ]] && [[ -n "${has_file}" ]] && \
-    echo "fatal: files must be sent on their own (i.e. without text or embeds)" && \
+    echo "fatal: files must be sent on their own without embeds (i.e. flags such as description, color, footer, etc." && \
     exit 3
 
 # set webhook url (if none exists after argument handling)
