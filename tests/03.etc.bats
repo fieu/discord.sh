@@ -47,18 +47,18 @@ load pre
 # Invalid payload (embed with file)
 @test "etc: invalid payload (file + embed) --gnu-style <> (should fail)" {
     run bash discord.sh --description "Test description" --file README.md
-    [ "${lines[0]}" = "fatal: files must be sent on their own (i.e. without text or embeds)" ]
+    [ "${lines[0]}" = "fatal: files must be sent on their own without embeds (i.e. flags such as description, color, footer, etc.)" ]
     [ "$status" -eq 3 ]
 }
 
 @test "etc: invalid payload (file + embed) --gnu-style=<> (should fail)" {
     run bash discord.sh --description="Test description" --file=README.md
-    [ "${lines[0]}" = "fatal: files must be sent on their own (i.e. without text or embeds)" ]
+    [ "${lines[0]}" = "fatal: files must be sent on their own without embeds (i.e. flags such as description, color, footer, etc.)" ]
     [ "$status" -eq 3 ]
 }
 
 @test "etc: invalid payload (file + embed) --gnu-style varied (should fail)" {
     run bash discord.sh --description "Test description" --file=README.md
-    [ "${lines[0]}" = "fatal: files must be sent on their own (i.e. without text or embeds)" ]
+    [ "${lines[0]}" = "fatal: files must be sent on their own without embeds (i.e. flags such as description, color, footer, etc.)" ]
     [ "$status" -eq 3 ]
 }
