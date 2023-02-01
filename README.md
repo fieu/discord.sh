@@ -1,14 +1,14 @@
 <h4 align="center">
   <br>
-  <a href="https://github.com/ChaoticWeg/discord.sh"><img src="https://i.imgur.com/xZ8r3N0.png" alt="discord.sh"></a>
+  <a href="https://github.com/fieu/discord.sh"><img src="https://i.imgur.com/xZ8r3N0.png" alt="discord.sh"></a>
   <br>
   <br>
 </h4>
 
 <p align="center" id="badges">
-  <a href="https://github.com/chaoticweg/discord.sh/releases/latest"><img src="https://img.shields.io/github/release/chaoticweg/discord.sh.svg?style=for-the-badge&label=Download"/></a>
+  <a href="https://github.com/fieu/discord.sh/releases/latest"><img src="https://img.shields.io/github/release/chaoticweg/discord.sh.svg?style=for-the-badge&label=Download"/></a>
   <a href="https://travis-ci.org/ChaoticWeg/discord.sh"><img src="https://img.shields.io/travis/ChaoticWeg/discord.sh/master.svg?style=for-the-badge" alt="Travis CI (master branch)"></a>
-  <a href="https://github.com/ChaoticWeg/discord.sh/stargazers"><img src="https://img.shields.io/github/stars/ChaoticWeg/discord.sh.svg?style=for-the-badge" alt="GitHub stars"></a>
+  <a href="https://github.com/fieu/discord.sh/stargazers"><img src="https://img.shields.io/github/stars/ChaoticWeg/discord.sh.svg?style=for-the-badge" alt="GitHub stars"></a>
 </p>
 
 > Write-only command-line integration for Discord webhooks, written in 100% Bash script. Influenced heavily by [slack-cli][slack].
@@ -82,9 +82,9 @@ $ ./discord.sh \
   --title "New Notification!" \
   --description "This is a description\nPretty cool huh?" \
   --color "0xFFFFFF" \
-  --url "https://github.com/ChaoticWeg/discord.sh" \
+  --url "https://github.com/fieu/discord.sh" \
   --author "discord.sh" \
-  --author-url "https://github.com/ChaoticWeg/discord.sh" \
+  --author-url "https://github.com/fieu/discord.sh" \
   --author-icon "https://i.imgur.com/12jyR5Q.png" \
   --image "https://i.imgur.com/12jyR5Q.png" \
   --thumbnail "https://i.imgur.com/12jyR5Q.png" \
@@ -286,7 +286,7 @@ Made with 💖 by [ChaoticWeg][weg] & [fieu][fieu] || Documentation and design b
 
 <!-- Programs -->
 [slack]: https://github.com/rockymadden/slack-cli/
-[discord.sh]: https://github.com/ChaoticWeg/discord.sh
+[discord.sh]: https://github.com/fieu/discord.sh
 [curl]: https://curl.haxx.se/
 [bash]: https://www.gnu.org/software/bash/
 [bats]: https://github.com/bats-core/bats-core
