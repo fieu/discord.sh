@@ -426,7 +426,6 @@ enforce_limits
 if ! [[ "${has_file}" -eq 1 ]]; then
     if target=$(build); then
         send "${target}"
-        exit 0
     else
         echo "${target}"
         exit 1
