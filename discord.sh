@@ -396,11 +396,8 @@ send_file() {
 
     # dry run
     if [[ ( -n "${is_dry}" ) && ( "${is_dry}" -ne 0 ) ]]; then
-        nc -l -N localhost 8000 &
-        curl -i \
-            -F "file=@${file_path}" \
-            -F "${_json}" \
-            "localhost:8000" 
+        echo "${_json}" | jq '.'
+        echo "file=${file_path}"
         exit 0
     fi
 
