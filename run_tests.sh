@@ -2,6 +2,7 @@
 
 total_exitcode=0
 export DISCORD_WEBHOOK="$DISCORD_WEBHOOK_URL"
+export TERM=xterm
 
 for filename in tests/*.bats; do
     echo -ne "\n  -- bats: ${filename}\n\n"
