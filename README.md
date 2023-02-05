@@ -1,6 +1,11 @@
 <h4 align="center">
   <br>
-  <a href="https://github.com/fieu/discord.sh"><img src="https://i.imgur.com/xZ8r3N0.png" alt="discord.sh"></a>
+  <a href="https://github.com/fieu/discord.sh">
+  <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/hzu8Vkp.png">
+  <img alt="discord.sh" src="https://i.imgur.com/xZ8r3N0.png">
+</picture>
+</a>
   <br>
   <br>
 </h4>
