@@ -38,6 +38,10 @@ General options:
   --text <text>                  Body text of message to send
   --tts                          Send message with text-to-speech enabled
   --webhook-url                  Specify the Discord webhook URL
+  --dry-run                      Dry run, don't actually send message
+
+File options:
+  --file <file>                  Send file <file>
 
 Identity options:
   --username <name>              Set username to <name>
