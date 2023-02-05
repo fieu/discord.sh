@@ -1,9 +1,9 @@
 name: Tests
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
 jobs:
   build:
@@ -20,6 +20,6 @@ jobs:
         uses: ludeeus/action-shellcheck@master
       - name: Run tests
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           make test

@@ -7,7 +7,6 @@ all:
 	@make test
 
 test:
-	@export DISCORD_WEBHOOK="$DISCORD_WEBHOOK_URL"
 	bats --print-output-on-failure tests/
 
 lint: SHELLCHECK := $(shell command -v shellcheck 2> /dev/null)
