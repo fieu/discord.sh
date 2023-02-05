@@ -6,7 +6,7 @@ export DISCORD_WEBHOOK="$DISCORD_WEBHOOK_URL"
 for filename in tests/*.bats; do
     echo -ne "\n  -- bats: ${filename}\n\n"
 
-    bats "${filename}"
+    bats -F pretty "${filename}"
     exitcode=$?
 
     [[ "${exitcode}" -ne 0 ]] && \
