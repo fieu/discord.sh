@@ -9,9 +9,11 @@ all:
 test:
 	@bash run_tests.sh
 
-lint: /tmp/shellcheck-latest/shellcheck
-	@$< discord.sh
-	@$< run_tests.sh
+lint: SHELLCHECK := $(shell command -v shellcheck 2> /dev/null)
+lint: SHELLCHECK := $(if $(SHELLCHECK),$(SHELLCHECK),/tmp/shellcheck-latest/shellcheck)
+lint:
+	@$(SHELLCHECK) discord.sh
+	@$(SHELLCHECK) run_tests.sh
 
 /tmp/shellcheck-latest/shellcheck:
 	@wget -c 'https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz' -O - | tar -xvJ -C /tmp/ >/dev/null 2>&1
