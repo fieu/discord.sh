@@ -1,19 +1,19 @@
 #!/usr/bin/env make
 
-.PHONY: all test lint notify site
+.PHONY: all test lint notify
 
 all:
 	@bash -c 'if [ "$(uname -s)" == "Linux" ]; then make lint; fi'
 	@make test
 
 test:
-	@bash run_tests.sh
+	@export DISCORD_WEBHOOK="$DISCORD_WEBHOOK_URL"
+	bats tests/
 
 lint: SHELLCHECK := $(shell command -v shellcheck 2> /dev/null)
 lint: SHELLCHECK := $(if $(SHELLCHECK),$(SHELLCHECK),/tmp/shellcheck-latest/shellcheck)
 lint:
 	@$(SHELLCHECK) discord.sh
-	@$(SHELLCHECK) run_tests.sh
 
 /tmp/shellcheck-latest/shellcheck:
 	@wget -c 'https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz' -O - | tar -xvJ -C /tmp/ >/dev/null 2>&1
