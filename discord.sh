@@ -42,7 +42,7 @@ curl_ok=$?
 get_ts() { date -u -Iseconds; };
 
 thisdir="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
-webhook_file="${thisdir}/.webhook"
+webhook_file="$thisdir/.webhook"
 
 help_text="Usage: discord.sh --webhook-url=<url> [OPTIONS]
 
@@ -118,7 +118,7 @@ add_field() {
     _inline="$(echo "$1" | cut -d';' -f3)"
     _inline="${_inline:-true}"
 
-    fields="${fields}{\"name\": \"${_name}\", \"value\": \"${_value}\", \"inline\": ${_inline}},"
+    fields="$fields{\"name\": \"$_name\", \"value\": \"$_value\", \"inline\": $_inline},"
 }
 
 build_fields() {
@@ -215,8 +215,8 @@ done
     exit 3
 
 # set webhook url (if none exists after argument handling)
-[[ -z ${webhook_url} ]] && [[ -n "${DISCORD_WEBHOOK}" ]] && webhook_url=${DISCORD_WEBHOOK}
-[[ -z ${webhook_url} ]] && [[ -r "${webhook_file}" ]] && [[ -f "${webhook_file}" ]] && webhook_url=$(cat "${webhook_file}")
+[[ -z ${webhook_url} ]] && [[ -n "${DISCORD_WEBHOOK}" ]] && webhook_url=$DISCORD_WEBHOOK
+[[ -z ${webhook_url} ]] && [[ -r "${webhook_file}" ]] && [[ -f "${webhook_file}" ]] && webhook_url=$(cat "$webhook_file")
 
 # no webhook could be found. bail out
 [[ -z ${webhook_url} ]] && echo "fatal: no --webhook-url passed or no .webhook file to read from" && exit 1;
@@ -252,11 +252,11 @@ build_author() {
     [[ -z "${embedding}" ]] && exit;
     [[ "${embedding}" -ne 1 ]] && exit;
 
-    [[ -n "${embed_authorname}" ]] && local _name=", \"name\": \"${embed_authorname}\""
-    [[ -n "${embed_authorurl}" ]] && local _url=", \"url\": \"${embed_authorurl}\""
-    [[ -n "${embed_authoricon}" ]] && local _icon=", \"icon_url\": \"${embed_authoricon}\""
+    [[ -n "${embed_authorname}" ]] && local _name=", \"name\": \"$embed_authorname\""
+    [[ -n "${embed_authorurl}" ]] && local _url=", \"url\": \"$embed_authorurl\""
+    [[ -n "${embed_authoricon}" ]] && local _icon=", \"icon_url\": \"$embed_authoricon\""
 
-    echo ", \"author\": { \"_\": \"_\"${_name}${_url}${_icon} }"
+    echo ", \"author\": { \"_\": \"_\"$_name$_url$_icon }"
 }
 
 
@@ -268,9 +268,9 @@ build_thumbnail() {
     [[ -z "${embedding}" ]] && exit;
     [[ "${embedding}" -ne 1 ]] && exit;
 
-    [[ -n "${embed_thumbnail}" ]] && local _url="\"url\": \"${embed_thumbnail}\""
+    [[ -n "${embed_thumbnail}" ]] && local _url="\"url\": \"$embed_thumbnail\""
 
-    echo ", \"thumbnail\": { ${_url} }"
+    echo ", \"thumbnail\": { $_url }"
 }
 
 
@@ -282,10 +282,10 @@ build_footer() {
     [[ -z "${embedding}" ]] && exit;
     [[ "${embedding}" -ne 1 ]] && exit;
 
-    [[ -n "${embed_footertext}" ]] && local _text=", \"text\": \"${embed_footertext}\""
-    [[ -n "${embed_footericon}" ]] && local _icon=", \"icon_url\": \"${embed_footericon}\""
+    [[ -n "${embed_footertext}" ]] && local _text=", \"text\": \"$embed_footertext\""
+    [[ -n "${embed_footericon}" ]] && local _icon=", \"icon_url\": \"$embed_footericon\""
 
-    echo ", \"footer\": { \"_\":\"_\"${_text}${_icon} }"
+    echo ", \"footer\": { \"_\":\"_\"$_text$_icon }"
 }
 
 
@@ -297,11 +297,11 @@ build_image() {
     [[ -z "${embedding}" ]] && exit;
     [[ "${embedding}" -ne 1 ]] && exit;
 
-    [[ -n "${embed_imageurl}" ]] && local _iurl=", \"url\": \"${embed_imageurl}\""
-    [[ -n "${embed_imageheight}" ]] && local _height=", \"height\": ${embed_imageheight}"
-    [[ -n "${embed_imagewidth}" ]] && local _width=", \"width\": ${embed_imagewidth}"
+    [[ -n "${embed_imageurl}" ]] && local _iurl=", \"url\": \"$embed_imageurl\""
+    [[ -n "${embed_imageheight}" ]] && local _height=", \"height\": $embed_imageheight"
+    [[ -n "${embed_imagewidth}" ]] && local _width=", \"width\": $embed_imagewidth"
 
-    echo ", \"image\": { \"_\": \"_\"${_iurl}${_height}${_width} }"
+    echo ", \"image\": { \"_\": \"_\"$_iurl$_height$_width }"
 }
 
 ##
@@ -319,10 +319,10 @@ build_embed() {
     [[ -z "${embedding}" ]] && exit;
     [[ "${embedding}" -ne 1 ]] && exit;
 
-    [[ -n "${embed_title}" ]] && local _title=", \"title\": \"${embed_title}\""
-    [[ -n "${embed_description}" ]] && local _desc=", \"description\": \"${embed_description}\""
-    [[ -n "${embed_url}" ]] && local _eurl=", \"url\": \"${embed_url}\""
-    [[ -n "${embed_color}" ]] && local _color=", \"color\": ${embed_color}"
+    [[ -n "${embed_title}" ]] && local _title=", \"title\": \"$embed_title\""
+    [[ -n "${embed_description}" ]] && local _desc=", \"description\": \"$embed_description\""
+    [[ -n "${embed_url}" ]] && local _eurl=", \"url\": \"$embed_url\""
+    [[ -n "${embed_color}" ]] && local _color=", \"color\": $embed_color"
     [[ -n "${embed_timestamp}" ]] && [[ "${embed_timestamp}" -eq 1 ]] && _ts=", \"timestamp\": \"$(get_ts)\""
 
     _author="$(build_author)"
@@ -331,7 +331,7 @@ build_embed() {
     _fields="$(build_fields)"
     _footer="$(build_footer)"
 
-    echo ", \"embeds\": [{ \"_\": \"_\"${_title}${_desc}${_eurl}${_color}${_ts}${_author}${_thumb}${_image}${_fields}${_footer} }]"
+    echo ", \"embeds\": [{ \"_\": \"_\"$_title$_desc$_eurl$_color$_ts$_author$_thumb$_image$_fields$_footer }]"
 }
 
 convert_image_link_to_base64() {
@@ -341,19 +341,19 @@ convert_image_link_to_base64() {
 
     # save image to temp file
     _image="$(mktemp)"
-    curl -s "${1}" > "${_image}"
+    curl -s "${1}" > "$_image"
 
     # get image type
-    _image_type="$(file -b --mime-type "${_image}")"
+    _image_type="$(file -b --mime-type "$_image")"
 
     # convert to base64
     _image_base64=$(<"$_image" base64)
 
     # remove temp file
-    rm "${_image}"
+    rm "$_image"
 
     # output
-    echo "data:${_image_type};base64,${_image_base64}"
+    echo "data:$_image_type;base64,$_image_base64"
 }
 
 
@@ -365,43 +365,43 @@ build() {
 
     # need to have SOMETHING to build
     [[ -z "${has_file}" ]] && \
-        [[ -z "${text}" ]] && \
-        [[ -z "${embed_title}" ]] && \
-        [[ -z "${embed_description}" ]] && \
-        [[ -z "${embed_imageurl}" ]] && \
-        [[ -z "${modify}" ]] && \
-        [[ -z "${username}" ]] && \
-        [[ -z "${avatar_url}" ]] && \
+        [[ -z "$text" ]] && \
+        [[ -z "$embed_title" ]] && \
+        [[ -z "$embed_description" ]] && \
+        [[ -z "$embed_imageurl" ]] && \
+        [[ -z "$modify" ]] && \
+        [[ -z "$username" ]] && \
+        [[ -z "$avatar_url" ]] && \
             echo "fatal: nothing to build" && exit 1
     
     # if only specified modify but not username/avatar, exit with error
     [[ -n "${modify}" ]] && \
-        [[ -z "${username}" ]] && \
-        [[ -z "${avatar_url}" ]] && \
+        [[ -z "$username" ]] && \
+        [[ -z "$avatar_url" ]] && \
             echo "fatal: must pass --username or --avatar with --modify" && exit 1
     # strip 0x prefix and convert hex to dec if necessary
     [[ -n "${embed_color}" ]] && [[ "${embed_color}" =~ ^0x[0-9a-fA-F]+$ ]] && embed_color="$(( embed_color ))"
 
     # embed color must be an integer, if given
-    [[ -n "${embed_color}" ]] && ! [[ "${embed_color}" =~ ^[0-9]+$ ]] && \
-        echo "fatal: illegal color '${embed_color}'" && exit 1
+    [[ -n "${embed_color}" ]] && ! [[ "$embed_color" =~ ^[0-9]+$ ]] && \
+        echo "fatal: illegal color '$embed_color'" && exit 1
 
     # let's build, boys
     [[ -n "${is_tts}" ]] && _tts=", \"tts\": true"
-    [[ -n "${text}" ]] && _content=", \"content\": \"${text}\""
+    [[ -n "${text}" ]] && _content=", \"content\": \"$text\""
     # if we're modifying, change the username field to name
-    [[ -n "${username}" ]] && [[ -n "${modify}" ]] && _username=", \"name\": \"${username}\""
-    [[ -n "${username}" ]] && [[ -z "${modify}" ]] && _username=", \"username\": \"${username}\""
+    [[ -n "${username}" ]] && [[ -n "${modify}" ]] && _username=", \"name\": \"$username\""
+    [[ -n "${username}" ]] && [[ -z "${modify}" ]] && _username=", \"username\": \"$username\""
     # if avatar_url is set and modify is set, change the avatar_url field to avatar and convert to base64
     # if avatar_url is set and modify is not set, change the avatar_url field to avatar
-    [[ -n "${avatar_url}" ]] && [[ -n "${modify}" ]] && _avatar=", \"avatar\": \"$(convert_image_link_to_base64 "${avatar_url}")\""
-    [[ -n "${avatar_url}" ]] && [[ -z "${modify}" ]] && _avatar=", \"avatar_url\": \"${avatar_url}\""
+    [[ -n "${avatar_url}" ]] && [[ -n "${modify}" ]] && _avatar=", \"avatar\": \"$(convert_image_link_to_base64 "$avatar_url")\""
+    [[ -n "${avatar_url}" ]] && [[ -z "${modify}" ]] && _avatar=", \"avatar_url\": \"$avatar_url\""
 
     [[ -n "${embedding}" ]] && _embed="$(build_embed)"
 
-    local _prefix="\"wait\": true${_tts}${_content}${_username}${_avatar}${_embed}"
+    local _prefix="\"wait\": true$_tts$_content$_username$_avatar$_embed"
 
-    echo "{ ${_prefix}${_embed} }"
+    echo "{ $_prefix$_embed }"
 }
 
 ##
@@ -422,9 +422,9 @@ send()
         if [[ -n "${text}" ]] && [[ -n "${embed_title}" ]] && [[ -n "${embed_description}" ]] && [[ -n "${embed_url}" ]] && [[ -n "${embed_color}" ]] && [[ -n "${embed_timestamp}" ]] && [[ -n "${embed_authorurl}" ]] && [[ -n "${embed_authoricon}" ]] && [[ -n "${embed_authorname}" ]] && [[ -n "${embed_thumbnail}" ]] && [[ -n "${embed_imageheight}" ]] && [[ -n "${embed_imagewidth}" ]] && [[ -n "${embed_imageurl}" ]] && [[ -n "${embed_footertext}" ]] && [[ -n "${embed_footericon}" ]] && [[ -n "${fields}" ]] && [[ -n "${file_path}" ]]; then
             echo "fatal: no arguments specified (except for username, modify and avatar)"; exit 1;
         fi
-        _result=$(curl -H "Content-Type: application/json" -H "Expect: application/json" -X PATCH "${webhook_url}" -d "${_sendme}" 2>/dev/null)
+        _result=$(curl -H "Content-Type: application/json" -H "Expect: application/json" -X PATCH "$webhook_url" -d "$_sendme" 2>/dev/null)
         send_ok=$?
-        [[ "${send_ok}" -ne 0 ]] && echo "fatal: curl failed with code ${send_ok}" && exit $send_ok
+        [[ "${send_ok}" -ne 0 ]] && echo "fatal: curl failed with code $send_ok" && exit "$send_ok"
         exit 0;
     fi
 
@@ -432,16 +432,16 @@ send()
     # results should be empty if there's no problem. otherwise, there should be code and message
     local _result
 
-     _result=$(curl -H "Content-Type: application/json" -H "Expect: application/json" -X POST "${webhook_url}" -d "${_sendme}" 2>/dev/null)
+     _result=$(curl -H "Content-Type: application/json" -H "Expect: application/json" -X POST "$webhook_url" -d "$_sendme" 2>/dev/null)
      send_ok=$?
-     [[ "${send_ok}" -ne 0 ]] && echo "fatal: curl failed with code ${send_ok}" && exit $send_ok
+     [[ "${send_ok}" -ne 0 ]] && echo "fatal: curl failed with code $send_ok" && exit "$send_ok"
 
-     _result=$(echo "${_result}" | jq '.')
+     _result=$(echo "$_result" | jq '.')
 
     # if we have a result, there was a problem. echo and exit.
     [[ -n "${_result}" ]] && \
-        echo error! "${_result}" && \
-        echo attempted to send: "$(echo "${_sendme}" | jq '.')" && \
+        echo error! "$_result" && \
+        echo attempted to send: "$(echo "$_sendme" | jq '.')" && \
         exit 1
 
     exit 0
@@ -455,31 +455,31 @@ send_file() {
     [[ ( -z "${has_file}" ) || ( -z "${file_path}" ) ]] && echo "fatal: give me a file" && exit 4
 
     local _json
-    if ! _json=$(build); then echo "${_json}"; exit 1; fi
+    if ! _json="$(build)"; then echo "$_json"; exit 1; fi
 
     # dry run
     if [[ ( -n "${is_dry}" ) && ( "${is_dry}" -ne 0 ) ]]; then
-        echo "${_json}" | jq '.'
-        echo "file=${file_path}"
+        echo "$_json" | jq '.'
+        echo "file=$file_path"
         exit 0
     fi
 
     [[ -n "${is_dry}" ]] && [[ "${is_dry}" -ne 0 ]] && \
-        echo "${_json}" && exit 0
+        echo "$_json" && exit 0
 
     # send with correct Content-Type and url-encoded data
     curl -i \
         -H "Expect: application/json" \
-        -F "file=@${file_path}" \
-        -F "payload_json=${_json}" \
-        "${webhook_url}" >/dev/null 2>&1
+        -F "file=@$file_path" \
+        -F "payload_json=$_json" \
+        "$webhook_url" >/dev/null 2>&1
 
     # error checking 
 
     sent_ok=$?
     [[ "${sent_ok}" -eq 0 ]] && exit 0
 
-    echo "fatal: curl exited with code ${sent_ok} when sending file \"${file_path}\""
+    echo "fatal: curl exited with code $sent_ok when sending file \"$file_path\""
 }
 
 
@@ -487,11 +487,11 @@ send_file() {
 enforce_limits
 
 ## no file? build and send normally
-if ! [[ "${has_file}" -eq 1 ]]; then
+if ! [[ "$has_file" -eq 1 ]]; then
     if target=$(build); then
-        send "${target}"
+        send "$target"
     else
-        echo "${target}"
+        echo "$target"
         exit 1
     fi
 fi
