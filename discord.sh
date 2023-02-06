@@ -59,6 +59,7 @@ File options:
 Identity options:
   --username <name>              Set username to <name>
   --avatar <url>                 Set avatar to image located at <url>
+  --modify                       Modify webhook (pass with avatar/username permanantly update webhook)
 
 Embedded content options:
   Main:
@@ -135,6 +136,8 @@ while (( "$#" )); do
 
         --webhook-url=*) webhook_url=${1/--webhook-url=/''}; shift;;
         --webhook-url*) webhook_url=${2}; shift; shift;;
+
+        --modify*) modify=1; shift;;
 
         --username=*) username=${1/--username=/''}; shift;;
         --username*) username=${2}; shift; shift;;
@@ -331,6 +334,28 @@ build_embed() {
     echo ", \"embeds\": [{ \"_\": \"_\"${_title}${_desc}${_eurl}${_color}${_ts}${_author}${_thumb}${_image}${_fields}${_footer} }]"
 }
 
+convert_image_link_to_base64() {
+    local _image
+    local _image_type
+    local _image_base64
+
+    # save image to temp file
+    _image="$(mktemp)"
+    curl -s "${1}" > "${_image}"
+
+    # get image type
+    _image_type="$(file -b --mime-type "${_image}")"
+
+    # convert to base64
+    _image_base64=$(<"$_image" base64)
+
+    # remove temp file
+    rm "${_image}"
+
+    # output
+    echo "data:${_image_type};base64,${_image_base64}"
+}
+
 
 build() {
     local _content
@@ -344,8 +369,16 @@ build() {
         [[ -z "${embed_title}" ]] && \
         [[ -z "${embed_description}" ]] && \
         [[ -z "${embed_imageurl}" ]] && \
+        [[ -z "${modify}" ]] && \
+        [[ -z "${username}" ]] && \
+        [[ -z "${avatar_url}" ]] && \
             echo "fatal: nothing to build" && exit 1
-
+    
+    # if only specified modify but not username/avatar, exit with error
+    [[ -n "${modify}" ]] && \
+        [[ -z "${username}" ]] && \
+        [[ -z "${avatar_url}" ]] && \
+            echo "fatal: must pass --username or --avatar with --modify" && exit 1
     # strip 0x prefix and convert hex to dec if necessary
     [[ -n "${embed_color}" ]] && [[ "${embed_color}" =~ ^0x[0-9a-fA-F]+$ ]] && embed_color="$(( embed_color ))"
 
@@ -356,8 +389,14 @@ build() {
     # let's build, boys
     [[ -n "${is_tts}" ]] && _tts=", \"tts\": true"
     [[ -n "${text}" ]] && _content=", \"content\": \"${text}\""
-    [[ -n "${username}" ]] && _username=", \"username\": \"${username}\""
-    [[ -n "${avatar_url}" ]] && _avatar=", \"avatar_url\": \"${avatar_url}\""
+    # if we're modifying, change the username field to name
+    [[ -n "${username}" ]] && [[ -n "${modify}" ]] && _username=", \"name\": \"${username}\""
+    [[ -n "${username}" ]] && [[ -z "${modify}" ]] && _username=", \"username\": \"${username}\""
+    # if avatar_url is set and modify is set, change the avatar_url field to avatar and convert to base64
+    # if avatar_url is set and modify is not set, change the avatar_url field to avatar
+    [[ -n "${avatar_url}" ]] && [[ -n "${modify}" ]] && _avatar=", \"avatar\": \"$(convert_image_link_to_base64 "${avatar_url}")\""
+    [[ -n "${avatar_url}" ]] && [[ -z "${modify}" ]] && _avatar=", \"avatar_url\": \"${avatar_url}\""
+
     [[ -n "${embedding}" ]] && _embed="$(build_embed)"
 
     local _prefix="\"wait\": true${_tts}${_content}${_username}${_avatar}${_embed}"
@@ -377,6 +416,17 @@ send()
 
     # dry run?
     [[ -n "${is_dry}" ]] && [[ "${is_dry}" -ne 0 ]] && echo "${1}" && exit 0;
+
+    # If any arguments except for username, modify and avatar are specified (modify option required), then exit with an error
+    if [[ -n "${username}" ]] || [[ -n "${avatar_url}" ]] && [[ "${modify}" = 1 ]]; then
+        if [[ -n "${text}" ]] && [[ -n "${embed_title}" ]] && [[ -n "${embed_description}" ]] && [[ -n "${embed_url}" ]] && [[ -n "${embed_color}" ]] && [[ -n "${embed_timestamp}" ]] && [[ -n "${embed_authorurl}" ]] && [[ -n "${embed_authoricon}" ]] && [[ -n "${embed_authorname}" ]] && [[ -n "${embed_thumbnail}" ]] && [[ -n "${embed_imageheight}" ]] && [[ -n "${embed_imagewidth}" ]] && [[ -n "${embed_imageurl}" ]] && [[ -n "${embed_footertext}" ]] && [[ -n "${embed_footericon}" ]] && [[ -n "${fields}" ]] && [[ -n "${file_path}" ]]; then
+            echo "fatal: no arguments specified (except for username, modify and avatar)"; exit 1;
+        fi
+        _result=$(curl -H "Content-Type: application/json" -H "Expect: application/json" -X PATCH "${webhook_url}" -d "${_sendme}" 2>/dev/null)
+        send_ok=$?
+        [[ "${send_ok}" -ne 0 ]] && echo "fatal: curl failed with code ${send_ok}" && exit $send_ok
+        exit 0;
+    fi
 
     # make the POST request and parse the results
     # results should be empty if there's no problem. otherwise, there should be code and message

@@ -132,6 +132,24 @@ $ ./discord.sh \
 
 ![](https://i.imgur.com/lni4fI3.png)
 
+### • `--modify`
+> You can permanently change the username and avatar of the webhook.
+> The following options are valid: `--username` and `--modify`
+
+> **Warning:**
+> No other options may be passed, including those for sending messages.
+
+#### Example
+```bash
+$ ./discord.sh \
+  --modify \
+  --username "NotifBot" \
+  --avatar "https://i.imgur.com/12jyR5Q.png" 
+```
+
+Once executed, all other webhook messages by default will contain the username and avatar set.
+
+![](https://i.imgur.com/ZYUBiil.png)
 ## Advanced Options
 
 Now we're going to look at how to setup a custom embed message.
