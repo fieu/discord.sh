@@ -13,8 +13,16 @@ load pre
     run bash discord.sh --modify --username "Modify with username"
     [ "$status" -eq 0 ]
 }
+@test "modify: verify --modify ---username --gnu-style <>" {
+    run bash discord.sh --text "verify"
+    [ "$status" -eq 0 ]
+}
 @test "modify: --modify --username --gnu-style=<>" {
     run bash discord.sh --modify --username="Modify with username"
+    [ "$status" -eq 0 ]
+}
+@test "modify: verify --modify ---username --gnu-style=<>" {
+    run bash discord.sh --text "verify"
     [ "$status" -eq 0 ]
 }
 # Modify with avatar
@@ -22,8 +30,16 @@ load pre
     run bash discord.sh --modify --avatar "https://i.imgur.com/12jyR5Q.png"
     [ "$status" -eq 0 ]
 }
+@test "modify: verify --modify ---avatar --gnu-style <>" {
+    run bash discord.sh --text "verify"
+    [ "$status" -eq 0 ]
+}
 @test "modify: --modify --avatar --gnu-style=<>" {
     run bash discord.sh --modify --avatar="https://i.imgur.com/12jyR5Q.png"
+    [ "$status" -eq 0 ]
+}
+@test "modify: verify --modify ---avatar --gnu-style=<>" {
+    run bash discord.sh --text "verify"
     [ "$status" -eq 0 ]
 }
 # Modify with username and avatar
@@ -31,11 +47,23 @@ load pre
     run bash discord.sh --modify --username "Modify with username and avatar" --avatar "https://i.imgur.com/12jyR5Q.png"
     [ "$status" -eq 0 ]
 }
+@test "modify: verify --modify --username --avatar --gnu-style <>" {
+    run bash discord.sh --text "verify"
+    [ "$status" -eq 0 ]
+}
 @test "modify: --modify --username --avatar --gnu-style=<>" {
     run bash discord.sh --modify --username "Modify with username and avatar" --avatar "https://i.imgur.com/12jyR5Q.png"
     [ "$status" -eq 0 ]
 }
+@test "modify: verify --modify --username --avatar --gnu-style=<>" {
+    run bash discord.sh --text "verify"
+    [ "$status" -eq 0 ]
+}
 @test "modify: --modify --username --avatar --gnu-style varied" {
     run bash discord.sh --modify --username "Modify with username and avatar" --avatar="https://i.imgur.com/12jyR5Q.png"
+    [ "$status" -eq 0 ]
+}
+@test "modify: verify --modify --username --avatar --gnu-style varied" {
+    run bash discord.sh --text "verify"
     [ "$status" -eq 0 ]
 }
