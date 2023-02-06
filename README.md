@@ -138,7 +138,7 @@ $ ./discord.sh \
 > You can permanently change the username and avatar of the webhook.
 > The following options are valid: `--username` and `--modify`
 
-> **Warning:**
+> **Warning**
 > No other options may be passed, including those for sending messages.
 
 #### Example
