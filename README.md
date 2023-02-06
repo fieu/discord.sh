@@ -40,6 +40,8 @@
 - [bats][bats] (tests)
 - [curl][curl] (http requests)
 - [jq][jq] (JSON parsing)
+- [base64][base64] (webhook avatar modification)
+- [file][file] (MIME type retrieval for webhook avatar modification)
 
 ## Usage
 
@@ -132,6 +134,24 @@ $ ./discord.sh \
 
 ![](https://i.imgur.com/lni4fI3.png)
 
+### • `--modify`
+> You can permanently change the username and avatar of the webhook.
+> The following options are valid: `--username` and `--modify`
+
+> **Warning:**
+> No other options may be passed, including those for sending messages.
+
+#### Example
+```bash
+$ ./discord.sh \
+  --modify \
+  --username "NotifBot" \
+  --avatar "https://i.imgur.com/12jyR5Q.png" 
+```
+
+Once executed, all other webhook messages by default will contain the username and avatar set.
+
+![](https://i.imgur.com/ZYUBiil.png)
 ## Advanced Options
 
 Now we're going to look at how to setup a custom embed message.
@@ -300,6 +320,8 @@ Made with 💖 by [ChaoticWeg][weg] & [fieu][fieu] || Documentation and design b
 [cut]: https://linux.die.net/man/1/cut
 [coreutils]: https://www.gnu.org/software/coreutils/coreutils.html
 [util-linux]: https://en.wikipedia.org/wiki/Util-linux
+[base64]: https://wiki.openssl.org/index.php/Command_Line_Utilities#Base64_Encoding_Strings
+[file]: https://github.com/file/file
 <!-- Documentation -->
 [webhook]: https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
 <!--  Contributors -->
