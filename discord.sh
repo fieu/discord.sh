@@ -334,7 +334,7 @@ build_embed() {
     echo ", \"embeds\": [{ \"_\": \"_\"${_title}${_desc}${_eurl}${_color}${_ts}${_author}${_thumb}${_image}${_fields}${_footer} }]"
 }
 
-convert_image_link_to_base64() {
+convert_image_url_to_base64() {
     local _image
     local _image_type
     local _image_base64
@@ -394,7 +394,7 @@ build() {
     [[ -n "${username}" ]] && [[ -z "${modify}" ]] && _username=", \"username\": \"${username}\""
     # if avatar_url is set and modify is set, change the avatar_url field to avatar and convert to base64
     # if avatar_url is set and modify is not set, change the avatar_url field to avatar
-    [[ -n "${avatar_url}" ]] && [[ -n "${modify}" ]] && _avatar=", \"avatar\": \"$(convert_image_link_to_base64 "${avatar_url}")\""
+    [[ -n "${avatar_url}" ]] && [[ -n "${modify}" ]] && _avatar=", \"avatar\": \"$(convert_image_url_to_base64 "${avatar_url}")\""
     [[ -n "${avatar_url}" ]] && [[ -z "${modify}" ]] && _avatar=", \"avatar_url\": \"${avatar_url}\""
 
     [[ -n "${embedding}" ]] && _embed="$(build_embed)"
