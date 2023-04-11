@@ -52,6 +52,7 @@ General options:
   --tts                          Send message with text-to-speech enabled
   --webhook-url                  Specify the Discord webhook URL
   --dry-run                      Dry run, don't actually send message
+  --version                      Print version information
 
 File options:
   --file <file>                  Send file <file>
@@ -125,6 +126,11 @@ build_fields() {
     echo ", \"fields\": [${fields::-1} ]"
 }
 
+print_version() {
+    echo "discord.sh version v2.0.0-dev"
+    exit 0
+}
+
 # gather arguments
 while (( "$#" )); do
     case "${1}"  in
@@ -133,6 +139,7 @@ while (( "$#" )); do
 
         --dry-run) is_dry=1; shift;;
         --tts) is_tts=1; shift;;
+        --version) print_version;;
 
         --webhook-url=*) webhook_url=${1/--webhook-url=/''}; shift;;
         --webhook-url*) webhook_url=${2}; shift; shift;;
