@@ -65,6 +65,7 @@ load pre
 
 # Test that text can be sent via pipe
 @test "text will be ignored, gathered instead from stdin (pip)" {
-    run bats_pipe echo "this text will be used" \| discord.sh --username "username test" --text="this text is ignored" --stdin
+ run bats_pipe echo "this text will be used" \| ./discord.sh --username "username test" --text="this text is ignored" --stdin
+
     [ "$status" -eq 0 ]
 }
