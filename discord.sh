@@ -49,6 +49,7 @@ help_text="Usage: discord.sh --webhook-url=<url> [OPTIONS]
 General options:
   --help                         Display this help and exit
   --text <text>                  Body text of message to send
+  --stdin                        Text of message will be piped in from stdin
   --tts                          Send message with text-to-speech enabled
   --webhook-url                  Specify the Discord webhook URL
   --dry-run                      Dry run, don't actually send message
@@ -154,6 +155,9 @@ while (( "$#" )); do
 
         --text=*) text=${1/--text=/''}; shift;;
         --text*) text=${2}; shift; shift;;
+
+        --stdin) text="$(< /dev/stdin)"; shift;;
+        --stdin*) text="$(< /dev/stdin)"; shift;;
 
         # embed goodies
         --title=*) embed_title=${1/--title=/''}; embedding=1; shift;;
