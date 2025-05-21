@@ -67,4 +67,4 @@ load pre
 @test "text will be ignored, gathered instead from stdin (pip)" {
     run bats_pipe echo "this text will be used" \| discord.sh --username "username test" --text="this text is ignored" --stdin
     [ "$status" -eq 0 ]
-
+}
