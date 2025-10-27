@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    if: github.event.review.state == 'opened' || github.head_ref == 'master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
