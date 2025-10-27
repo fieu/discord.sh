@@ -11,6 +11,7 @@
 </h4>
 
 <p align="center" id="badges">
+  <a href="https://github.com/fieu/discord.sh/actions"><img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/fieu/discord.sh/tests.yml"></a>
   <a href="https://github.com/fieu/discord.sh/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/fieu/discord.sh"></a>
   <a href="https://github.com/fieu/discord.sh/releases/latest"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/fieu/discord.sh/total"></a>
   <a href="https://github.com/fieu/discord.sh/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/fieu/discord.sh?style=flat"></a>
