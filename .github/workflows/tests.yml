@@ -2,11 +2,12 @@ name: Tests
 on:
   push:
     branches: [master]
-  pull_request_target:
+  pull_request_review:
     branches: [master]
   workflow_dispatch:
 jobs:
   build:
+    if: github.event.review.state == 'approved' || github.head_ref == 'master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
