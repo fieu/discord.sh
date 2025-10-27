@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Discord.sh - Discord on command-line
-# Copyright (C) 2023 ChaoticWeg & fieu
+# Copyright (C) 2025 ChaoticWeg & fieu
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
