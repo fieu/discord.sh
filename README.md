@@ -11,8 +11,10 @@
 </h4>
 
 <p align="center" id="badges">
-  <a href="https://github.com/fieu/discord.sh/releases/latest"><img src="https://img.shields.io/github/release/chaoticweg/discord.sh.svg?style=for-the-badge&label=Download"/></a>
-  <a href="https://github.com/fieu/discord.sh/stargazers"><img src="https://img.shields.io/github/stars/ChaoticWeg/discord.sh.svg?style=for-the-badge" alt="GitHub stars"></a>
+  <a href="https://github.com/fieu/discord.sh/actions"><img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/fieu/discord.sh/tests.yml"></a>
+  <a href="https://github.com/fieu/discord.sh/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/fieu/discord.sh"></a>
+  <a href="https://github.com/fieu/discord.sh/releases/latest"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/fieu/discord.sh/total"></a>
+  <a href="https://github.com/fieu/discord.sh/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/fieu/discord.sh?style=flat"></a>
 </p>
 
 > Write-only command-line integration for Discord webhooks, written in 100% Bash script. Influenced heavily by [slack-cli][slack].
