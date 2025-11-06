@@ -50,6 +50,7 @@
 
 1. [Setup a webhook][webhook] in the desired Discord text channel
 2. Download (or clone) a copy of `discord.sh`
+
    ```bash
    # Using curl
    curl -o discord.sh https://github.com/fieu/discord.sh/releases/download/latest/discord.sh
