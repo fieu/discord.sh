@@ -135,6 +135,16 @@ $ ./discord.sh \
 
 ![](https://i.imgur.com/LQx7PLT.png)
 
+### • `--stdin`
+> This allows you to pipe content from stdin instead of using `--text`. Any `--text` argument will be ignored when `--stdin` is used.
+
+#### Example
+```bash
+$ echo "Hello from stdin!" | ./discord.sh --webhook-url="$WEBHOOK" --stdin
+
+$ cat logfile.txt | ./discord.sh --webhook-url="$WEBHOOK" --stdin --username "Log Bot"
+```
+
 ### • `--username <string>`
 > You can override the username of the webhook "bot" with this flag.
 
