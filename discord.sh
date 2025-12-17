@@ -412,7 +412,7 @@ build() {
 
     local _prefix="\"wait\": true${_tts}${_content}${_username}${_avatar}${_embed}"
 
-    echo "{ ${_prefix}${_embed} }"
+    echo "{ ${_prefix} }"
 }
 
 ##
