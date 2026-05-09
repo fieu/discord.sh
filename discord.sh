@@ -124,7 +124,7 @@ add_field() {
 }
 
 build_fields() {
-    echo ", \"fields\": [${fields::-1} ]"
+    echo ", \"fields\": [${fields%,} ]"
 }
 
 print_version() {
@@ -199,8 +199,8 @@ while (( "$#" )); do
         --image*) embed_imageurl=${2}; embedding=1; shift; shift;;
 
         # fields
-        --field=*) add_field "${1/--field=/''}"; embedding=1; shift;;
-        --field*) add_field "${2}"; embedding=1; shift; shift;;
+        --field=*) embedding=1; add_field "${1/--field=/''}"; shift;;
+        --field*) embedding=1; add_field "${2}"; shift; shift;;
 
         # footer
         --footer-icon=*) embed_footericon=${1/--footer-icon=/''}; embedding=1; shift;;
