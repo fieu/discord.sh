@@ -1,4 +1,5 @@
 .discord
+.discord_msg_*
 .webhook
 *.swp
 
