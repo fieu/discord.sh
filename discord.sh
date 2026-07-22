@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-shopt -s lastpipe   # avoid subshell weirdness hopefully
+shopt -s lastpipe 2>/dev/null || true   # bash 4.2+ only, safe to skip
 shopt -so pipefail  # hopefully correctly get $? in substitution
 
 # check for jq
@@ -54,6 +54,7 @@ General options:
   --webhook-url                  Specify the Discord webhook URL
   --dry-run                      Dry run, don't actually send message
   --version                      Print version information
+  --replace <key>                Delete previous message with this key, send new one, save its ID
 
 File options:
   --file <file>                  Send file <file>
@@ -124,7 +125,7 @@ add_field() {
 }
 
 build_fields() {
-    echo ", \"fields\": [${fields::-1} ]"
+    echo ", \"fields\": [${fields%,} ]"
 }
 
 print_version() {
@@ -140,6 +141,9 @@ while (( "$#" )); do
 
         --dry-run) is_dry=1; shift;;
         --tts) is_tts=1; shift;;
+
+        --replace=*) replace_key=${1/--replace=/''}; shift;;
+        --replace*) replace_key=${2}; shift; shift;;
         --version) print_version;;
 
         --webhook-url=*) webhook_url=${1/--webhook-url=/''}; shift;;
@@ -199,8 +203,8 @@ while (( "$#" )); do
         --image*) embed_imageurl=${2}; embedding=1; shift; shift;;
 
         # fields
-        --field=*) add_field "${1/--field=/''}"; embedding=1; shift;;
-        --field*) add_field "${2}"; embedding=1; shift; shift;;
+        --field=*) embedding=1; add_field "${1/--field=/''}"; shift;;
+        --field*) embedding=1; add_field "${2}"; shift; shift;;
 
         # footer
         --footer-icon=*) embed_footericon=${1/--footer-icon=/''}; embedding=1; shift;;
@@ -384,7 +388,7 @@ build() {
         [[ -z "${username}" ]] && \
         [[ -z "${avatar_url}" ]] && \
             echo "fatal: nothing to build" && exit 1
-    
+
     # if only specified modify but not username/avatar, exit with error
     [[ -n "${modify}" ]] && \
         [[ -z "${username}" ]] && \
@@ -439,6 +443,26 @@ send()
         exit 0;
     fi
 
+    # replace mode: delete old message then post new one, saving the returned ID
+    if [[ -n "${replace_key}" ]]; then
+        local _id_file="${thisdir}/.discord_msg_${replace_key}"
+        if [[ -f "${_id_file}" ]]; then
+            local _old_id
+            _old_id=$(cat "${_id_file}")
+            curl -s -X DELETE "${webhook_url}/messages/${_old_id}" >/dev/null 2>&1
+            rm "${_id_file}"
+        fi
+        local _result
+        _result=$(curl -s -H "Content-Type: application/json" -H "Expect: application/json" \
+            -X POST "${webhook_url}?wait=true" -d "${_sendme}" 2>/dev/null)
+        send_ok=$?
+        [[ "${send_ok}" -ne 0 ]] && echo "fatal: curl failed with code ${send_ok}" && exit $send_ok
+        local _new_id
+        _new_id=$(echo "${_result}" | jq -r '.id // empty')
+        [[ -n "${_new_id}" ]] && echo "${_new_id}" > "${_id_file}"
+        exit 0
+    fi
+
     # make the POST request and parse the results
     # results should be empty if there's no problem. otherwise, there should be code and message
     local _result
@@ -485,7 +509,7 @@ send_file() {
         -F "payload_json=${_json}" \
         "${webhook_url}" >/dev/null 2>&1
 
-    # error checking 
+    # error checking
 
     sent_ok=$?
     [[ "${sent_ok}" -eq 0 ]] && exit 0

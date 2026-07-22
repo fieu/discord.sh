@@ -174,6 +174,45 @@ $ ./discord.sh \
 Once executed, all other webhook messages by default will contain the username and avatar set.
 
 ![](https://i.imgur.com/ZYUBiil.png)
+
+### • `--replace <key>`
+> This option keeps only the **latest** message of a given kind in the channel. Before sending, `discord.sh` deletes the message it posted the previous time you used the same `<key>`, then posts the new message and remembers its ID for next time.
+
+This is useful for status/heartbeat style notifications where you want a single, always-up-to-date message rather than a growing wall of duplicates (e.g. a "server status", "deploy progress", or "current build" message).
+
+How it works:
+1. The ID of the message sent with a given `<key>` is stored in a file named `.discord_msg_<key>` next to `discord.sh`.
+2. On the next run with the same `<key>`, that stored message is deleted from Discord and the ID file is removed.
+3. The new message is sent (with `?wait=true` so Discord returns the message object), and its ID is written back to `.discord_msg_<key>`.
+
+> **Note**
+> The first run with a new `<key>` has nothing to delete, so it simply sends the message and saves its ID. Deletion of the previous message is best-effort — if it was already removed in Discord, sending still proceeds.
+
+#### Example
+```bash
+# First run: posts the message and saves its ID to .discord_msg_status
+$ ./discord.sh \
+  --webhook-url="$WEBHOOK" \
+  --replace status \
+  --username "Status Bot" \
+  --text "🟢 Server is online"
+
+# Later run: deletes the previous "status" message, then posts the updated one
+$ ./discord.sh \
+  --webhook-url="$WEBHOOK" \
+  --replace status \
+  --username "Status Bot" \
+  --text "🔴 Server is offline"
+```
+
+You can keep several independent replaceable messages by using different keys:
+```bash
+$ ./discord.sh --webhook-url="$WEBHOOK" --replace deploy --text "Deploying v1.2.3…"
+$ ./discord.sh --webhook-url="$WEBHOOK" --replace build  --text "Build #42 passed ✅"
+```
+
+The `--replace=<key>` syntax (with an equals sign) is also supported.
+
 ## Advanced Options
 
 Now we're going to look at how to setup a custom embed message.
