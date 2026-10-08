@@ -2,8 +2,8 @@
   <br>
   <a href="https://github.com/fieu/discord.sh">
   <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://i.imgur.com/hzu8Vkp.png">
-  <img alt="discord.sh" src="https://i.imgur.com/xZ8r3N0.png">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/discordsh-dark.png">
+  <img alt="discord.sh" src="assets/discordsh-light.png">
 </picture>
 </a>
   <br>
@@ -18,6 +18,8 @@
 </p>
 
 > Write-only command-line integration for Discord webhooks, written in 100% Bash script. Influenced heavily by [slack-cli][slack].
+
+<p align="center"><img alt="discord.sh demo" src="assets/demo.gif"></p>
 
 ## Table of Contents
 - [Features](#features)
